@@ -1,0 +1,385 @@
+﻿@model ResumeHub.DTOs.PortfolioJsonDto
+@{
+    ViewData["Title"] = "Edit Portfolio";
+}
+
+<link rel="stylesheet" href="~/css/EditPortFolio.css" asp-append-version="true" />
+
+
+<div class="container-edit-portfolio">
+    <div class="row">
+        <!-- Side Navigation -->
+        <div class="col-lg-3">
+            <div class="sidebar-nav">
+                <div class="card edit-card">
+                    <div class="card-body p-2">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#" data-section="personal-info">
+                                    <i class="fas fa-user-circle me-2"></i> Personal Info
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-section="services">
+                                    <i class="fas fa-concierge-bell me-2"></i> Services
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-section="projects">
+                                    <i class="fas fa-project-diagram me-2"></i> Projects
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-section="skills">
+                                    <i class="fas fa-lightbulb me-2"></i> Skills
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-section="design-section">
+                                    <i class="fas fa-paint-brush me-2"></i> Design
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <form asp-controller="Portfolio" asp-action="Edit" method="post" enctype="multipart/form-data" id="portfolioForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="LastUpdatedDate" />
+                <input type="hidden" asp-for="ImageBase64" />
+                <input type="hidden" asp-for="ImageFileName" />
+                <input asp-for="ImageContentType" type="hidden" />
+                <input type="hidden" asp-for="CreatedDate" />
+                
+
+                <!-- Personal Info Section -->
+                <div class="form-section active" id="personal-info-section">
+                    <div class="card edit-card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i> Personal Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="Title" class="form-label"></label>
+                                    <input asp-for="Title" class="form-control" placeholder="e.g. Web Developer" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="FirstName" class="form-label"></label>
+                                    <input asp-for="FirstName" class="form-control" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="LastName" class="form-label"></label>
+                                    <input asp-for="LastName" class="form-control" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="PhoneNumber" class="form-label"></label>
+                                    <input asp-for="PhoneNumber" class="form-control" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Address" class="form-label"></label>
+                                    <input asp-for="Address" class="form-control" placeholder="City, Country" />
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="Summery" class="form-label"></label>
+                                    <textarea asp-for="Summery" class="form-control" rows="4" placeholder="Brief introduction about yourself"></textarea>
+                                    <span asp-validation-for="Summery" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <h6 class="section-title mt-4">Social Links</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="GitHubLink" class="form-label"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fab fa-github"></i></span>
+                                        <input asp-for="GitHubLink" class="form-control" placeholder="https://github.com/username" />
+                                    </div>
+                                    <span asp-validation-for="GitHubLink" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="LinkedinLink" class="form-label"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
+                                        <input asp-for="LinkedinLink" class="form-control" placeholder="https://linkedin.com/in/username" />
+                                    </div>
+                                    <span asp-validation-for="LinkedinLink" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <h6 class="section-title mt-4">Profile Image</h6>
+                            <div class="image-preview-container">
+                                <img id="profileImagePreview"
+                                     src="data:@Model.ImageContentType;base64,@Model.ImageBase64"
+                                     class="image-preview me-4"
+                                      alt="Profile Preview"* /> 
+                                <div class="flex-grow-1">
+                                    <label asp-for="PersonalImage" class="form-label">Upload New Image</label>
+                                    <input asp-for="PersonalImage"
+                                           type="file"
+                                           class="form-control"
+                                           accept="image/*" />
+                                    <div class="form-text">JPG or PNG, max 2MB</div>
+                                    <span asp-validation-for="PersonalImage" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Services Section -->
+                <div class="form-section" id="services-section">
+                    <div class="card edit-card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-concierge-bell me-2"></i> Services</h5>
+                            <button type="button" class="btn btn-primary btn-sm btn-add" id="addService">
+                                <i class="fas fa-plus me-1"></i> Add Service
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="dynamic-list" id="servicesContainer">
+                                @for (int i = 0; Model.Services != null && i < Model.Services.Count; i++)
+                                {
+                                    <div class="dynamic-list-item">
+                                        <i class="fas fa-times remove-item" onclick="removeItem(this)"></i>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label asp-for="@Model.Services[i].ServiceName" class="form-label">Service Name*</label>
+                                                <input asp-for="@Model.Services[i].ServiceName" class="form-control" placeholder="e.g. Web Development" />
+                                                <span asp-validation-for="@Model.Services[i].ServiceName" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@Model.Services[i].ServiceDescription" class="form-label">Service Description</label>
+                                                <input asp-for="@Model.Services[i].ServiceDescription" class="form-control" placeholder="Brief description of the service" />
+                                                <span asp-validation-for="@Model.Services[i].ServiceDescription" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Section -->
+                <div class="form-section" id="projects-section">
+                    <div class="card edit-card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-project-diagram me-2"></i> Projects</h5>
+                            <button type="button" class="btn btn-primary btn-sm btn-add" id="addProject">
+                                <i class="fas fa-plus me-1"></i> Add Project
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="dynamic-list" id="projectsContainer">
+                                @for (int i = 0; Model.Projects != null && i < Model.Projects.Count; i++)
+                                {
+                                    <div class="dynamic-list-item">
+                                        <i class="fas fa-times remove-item" onclick="removeItem(this)"></i>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label asp-for="@Model.Projects[i].ProjectName" class="form-label">Project Name*</label>
+                                                <input asp-for="@Model.Projects[i].ProjectName" class="form-control" placeholder="Project title" />
+                                                <span asp-validation-for="@Model.Projects[i].ProjectName" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@Model.Projects[i].ProjectLink" class="form-label">Project Link</label>
+                                                <input asp-for="@Model.Projects[i].ProjectLink" class="form-control" placeholder="Live demo or repository URL" />
+                                                <span asp-validation-for="@Model.Projects[i].ProjectLink" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-12">
+                                                <label asp-for="@Model.Projects[i].ProjectDescription" class="form-label">Project Description*</label>
+                                                <textarea asp-for="@Model.Projects[i].ProjectDescription"
+                                                          class="form-control"
+                                                          rows="3"
+                                                          placeholder="Describe the project, technologies used, and your role"></textarea>
+                                                <span asp-validation-for="@Model.Projects[i].ProjectDescription" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label asp-for="@Model.Projects[i].StartDate" class="form-label">Start Date*</label>
+                                                <input asp-for="@Model.Projects[i].StartDate"
+                                                       type="date"
+                                                       class="form-control" />
+                                                <span asp-validation-for="@Model.Projects[i].StartDate" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label asp-for="@Model.Projects[i].EndDate" class="form-label">End Date</label>
+                                                <input asp-for="@Model.Projects[i].EndDate"
+                                                       type="date"
+                                                       class="form-control" />
+                                                <span asp-validation-for="@Model.Projects[i].EndDate" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-12">
+                                                <label asp-for="@Model.Projects[i].ProjectImage" class="form-label">Project Image</label>
+                                                <div class="d-flex align-items-start">
+                                                    <img src="data:@Model.Projects[i].ImageContentType;base64,@Model.Projects[i].ImageBase64"
+                                                         class="project-image-preview me-4"
+                                                         style="max-width: 200px;"
+                                                         alt="Preview" />
+                                                    <div class="flex-grow-1">
+                                                        <input asp-for="@Model.Projects[i].ProjectImage"
+                                                               type="file"
+                                                               class="form-control"
+                                                               accept="image/*" />
+                                                        <div class="form-text">JPG or PNG, max 2MB</div>
+                                                        <span asp-validation-for="@Model.Projects[i].ImageFileName" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" asp-for="@Model.Projects[i].ImageBase64" />
+                                            <input type="hidden" asp-for="@Model.Projects[i].ImageFileName" />
+                                            <input type="hidden" asp-for="@Model.Projects[i].ImageContentType" value="@Model.Projects[i].ImageContentType" />
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="form-section" id="skills-section">
+                    <div class="card edit-card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i> Skills</h5>
+                            <button type="button" class="btn btn-primary btn-sm btn-add" id="addSkill">
+                                <i class="fas fa-plus me-1"></i> Add Skill
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="dynamic-list" id="skillsContainer">
+                                @for (int i = 0; Model.Skills != null && i < Model.Skills.Count; i++)
+                                {
+                                    <div class="dynamic-list-item">
+                                        <i class="fas fa-times remove-item" onclick="removeItem(this)"></i>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label asp-for="@Model.Skills[i].SkillName" class="form-label">Skill Name*</label>
+                                                <input asp-for="@Model.Skills[i].SkillName" class="form-control" placeholder="e.g. JavaScript, Photoshop" />
+                                                <span asp-validation-for="@Model.Skills[i].SkillName" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@Model.Skills[i].SkillType" class="form-label">Skill Type*</label>
+                                                <select asp-for="@Model.Skills[i].SkillType" class="form-select">
+                                                    <option value="">Select type</option>
+                                                    <option>Programming Language</option>
+                                                    <option>Framework</option>
+                                                    <option>Tool</option>
+                                                    <option>Design</option>
+                                                    <option>Database</option>
+                                                    <option>DevOps</option>
+                                                </select>
+                                                <span asp-validation-for="@Model.Skills[i].SkillType" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chose Template Section -->
+
+                <div class="form-section" id="design-section">
+                    <div class="card mb-4 border-0 shadow-lg">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0 d-flex align-items-center">
+                                <i class="bi bi-brush me-2"></i>Choose Your Portfolio Design
+                            </h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-4">
+                                <!-- Template 1 -->
+                                <div class="col-md-4">
+                                    <div class="template-card">
+                                        <input asp-for="PortFolioTemplateId" type="radio" value="1" id="template1" class="d-none" />
+                                        <label for="template1" class="template-label">
+                                            <div class="template-preview">
+                                                <img src="~/images/PortfolioDesgin/Template 1.png" class="img-fluid rounded-top" alt="Classic Layout" />
+                                                <div class="template-overlay">
+                                                    <span class="badge bg-white text-primary">Classic</span>
+                                                </div>
+                                            </div>
+                                            <div class="template-footer p-3 text-center">
+                                                <h6 class="mb-1">Classic Layout</h6>
+                                                <small class="text-muted">Traditional professional style</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Template 2 -->
+                                <div class="col-md-4">
+                                    <div class="template-card">
+                                        <input asp-for="PortFolioTemplateId" type="radio" value="2" id="template2" class="d-none" />
+                                        <label for="template2" class="template-label">
+                                            <div class="template-preview">
+                                                <img src="~/images/PortfolioDesgin/Template 2.png" class="img-fluid rounded-top" alt="Modern Layout" />
+                                                <div class="template-overlay">
+                                                    <span class="badge bg-white text-primary">Modern</span>
+                                                </div>
+                                            </div>
+                                            <div class="template-footer p-3 text-center">
+                                                <h6 class="mb-1">Modern Layout</h6>
+                                                <small class="text-muted">Sleek contemporary design</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Template 3 -->
+                                <div class="col-md-4">
+                                    <div class="template-card">
+                                        <input asp-for="PortFolioTemplateId" type="radio" value="3" id="template3" class="d-none" />
+                                        <label for="template3" class="template-label">
+                                            <div class="template-preview">
+                                                <img src="~/images/PortfolioDesgin/Template 3.png" class="img-fluid rounded-top" alt="Minimalist" />
+                                                <div class="template-overlay">
+                                                    <span class="badge bg-white text-primary">Minimalist</span>
+                                                </div>
+                                            </div>
+                                            <div class="template-footer p-3 text-center">
+                                                <h6 class="mb-1">Minimalist</h6>
+                                                <small class="text-muted">Clean and simple aesthetic</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
+                    <i class="fas fa-save me-2"></i> Save Portfolio
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/EditPortFolio.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,119 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Personal Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+@* <h3>@ViewData["Title"]</h3>
+ *@
+<div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+    <div class="card-header bg-primary bg-opacity-10 py-3">
+        <h2 class="h5 mb-0 fw-semibold text-primary">
+            <i class="bi bi-file-person me-2"></i> PersonalData
+        </h2>
+
+<style>
+/* Personal Data Page Specific Styles */
+.card-title {
+    font-weight: 600;
+    color: var(--dark-color);
+    font-size: 1.5rem;
+}
+
+.alert-info {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-color: rgba(76, 175, 80, 0.2);
+    color: var(--dark-color);
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.2);
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.list-unstyled li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+}
+
+</style>
+@* <div class="row">
+    <div class="col-md-6">
+        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
+        <p>
+            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+        </p>
+        <form id="download-data" asp-page="DownloadPersonalData" method="post">
+            <button class="btn btn-primary" type="submit">Download</button>
+        </form>
+        <p>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
+        </p>
+    </div>
+</div> *@
+
+
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-bottom-0">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-person-lines-fill text-primary me-2"></i>@ViewData["Title"]
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Your account contains personal data that you have provided to us. This page allows you to manage that data.
+                    </div>
+
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>Warning:</strong> Deleting your data will permanently remove your account, and this action cannot be undone.
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row gap-3 mt-4">
+                        <form id="download-data" asp-page="DownloadPersonalData" method="post" class="flex-grow-1">
+                            <button class="btn btn-primary w-100" type="submit">
+                                <i class="bi bi-download me-2"></i>Download Personal Data
+                            </button>
+                        </form>
+
+                        <a id="delete" asp-page="DeletePersonalData" class="btn btn-outline-danger flex-grow-1">
+                            <i class="bi bi-trash me-2"></i>Delete Account
+                        </a>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-top">
+                        <h5 class="mb-3">
+                            <i class="bi bi-shield-lock text-primary me-2"></i>Data Security Information
+                        </h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>All data is encrypted in transit and at rest</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>We never share your data with third parties</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Regular security audits ensure your data protection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

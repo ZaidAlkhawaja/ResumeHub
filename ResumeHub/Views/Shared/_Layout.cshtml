@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ResumeHub</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ResumeHub.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
+</head>
+<body>
+    <header>
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-file-earmark-person-fill me-2"></i>ResumeHub
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Resume" asp-action="Index">Resume</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Portfolio" asp-action="Index">PortFolio</a>
+                        <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
+                    <div class="ms-lg-3 mt-3 mt-lg-0">
+                        <partial name="_LoginPartial" />
+                       
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h3 class="text-white mb-4">
+                        <i class="bi bi-file-earmark-person-fill me-2"></i>ResumeHub
+                    </h3>
+                    <p class="text-muted">AI-powered resume and portfolio builder helping professionals land their dream jobs since 2025.</p>
+                    <div class="social-icons mb-4">
+                        <a href="https://www.facebook.com/share/1ZBCoJ6z6V/?mibextid=wwXIfr"><i class="bi bi-facebook"></i></a>
+                        <a href="#https://www.htu.edu.jo/"><i class="bi bi-twitter"></i></a>
+                        <a href="http://linkedin.com/in/zaid-alkhawaja"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://www.instagram.com/htujo?igsh=MTl6NTQ2cDUwYW1yNA=="><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="footer-links">
+                        <h5>Product</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#">AI Features</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Templates</a></li>
+                            <li><a href="#">Updates</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="footer-links">
+                        <h5>Company</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="footer-links">
+                        <h5>Support</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="footer-links">
+                        <h5>Resources</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#">AI Resume Tips</a></li>
+                            <li><a href="#">Career Advice</a></li>
+                            <li><a href="#">Interview Tips</a></li>
+                            <li><a href="#">Job Search</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4 bg-secondary">
+
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-muted">&copy; 2025 ResumeHub. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0 text-muted">
+                        <a href="#" class="text-muted text-decoration-none me-3">Privacy Policy</a>
+                        <a href="#" class="text-muted text-decoration-none">Terms</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

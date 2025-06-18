@@ -1,0 +1,176 @@
+﻿@page
+@using Microsoft.AspNetCore.Http.Features
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = "Two-factor authentication (2FA)";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+@* <h3>@ViewData["Title"]</h3>
+ *@
+
+<div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+    <div class="card-header bg-primary bg-opacity-10 py-3">
+        <h2 class="h5 mb-0 fw-semibold text-primary">
+            <i class="bi bi-phone me-2"></i> TwoFactorAuthentication
+        </h2>
+
+<style>
+    /* Two-Factor Authentication Page Specific Styles */
+    .alert {
+        border-radius: 8px;
+        padding: 1rem 1.25rem;
+    }
+
+    .alert-link {
+        color: inherit;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+
+        .alert-link:hover {
+            text-decoration: none;
+        }
+
+    .flex-grow-1 {
+        flex-grow: 1;
+    }
+
+    .border-top {
+        border-top: 1px solid var(--gray-medium) !important;
+    }</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-bottom-0">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-shield-lock text-primary me-2"></i>@ViewData["Title"]
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <partial name="_StatusMessage" for="StatusMessage" />
+                    
+                    @{
+                        var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+                        @if (consentFeature?.CanTrack ?? true)
+                        {
+                            <!-- 2FA Status Section -->
+                            @if (Model.Is2faEnabled)
+                            {
+                                <div class="alert alert-success">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-check-circle-fill me-3 fs-4"></i>
+                                        <div>
+                                            <strong>Two-factor authentication is enabled</strong>
+                                            <p class="mb-0">Your account is protected with an extra layer of security.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Recovery Codes Warnings -->
+                                @if (Model.RecoveryCodesLeft == 0)
+                                {
+                                    <div class="alert alert-danger">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                                            <div>
+                                                <strong>No recovery codes remaining</strong>
+                                                <p class="mb-0">You must <a asp-page="./GenerateRecoveryCodes" class="alert-link">generate new recovery codes</a> before you can log in with a recovery code.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.RecoveryCodesLeft == 1)
+                                {
+                                    <div class="alert alert-danger">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                                            <div>
+                                                <strong>Only 1 recovery code remaining</strong>
+                                                <p class="mb-0">You should <a asp-page="./GenerateRecoveryCodes" class="alert-link">generate new recovery codes</a>.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.RecoveryCodesLeft <= 3)
+                                {
+                                    <div class="alert alert-warning">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                                            <div>
+                                                <strong>Only @Model.RecoveryCodesLeft recovery codes remaining</strong>
+                                                <p class="mb-0">We recommend <a asp-page="./GenerateRecoveryCodes" class="alert-link">generating new recovery codes</a>.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                <!-- 2FA Actions -->
+                                <div class="d-flex flex-column flex-md-row gap-3 mb-4">
+                                    @if (Model.IsMachineRemembered)
+                                    {
+                                        <form method="post" class="flex-grow-1">
+                                            <button type="submit" class="btn btn-outline-primary w-100">
+                                                <i class="bi bi-trash me-2"></i>Forget This Browser
+                                            </button>
+                                        </form>
+                                    }
+                                    <a asp-page="./Disable2fa" class="btn btn-outline-danger flex-grow-1">
+                                        <i class="bi bi-x-circle me-2"></i>Disable 2FA
+                                    </a>
+                                    <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary flex-grow-1">
+                                        <i class="bi bi-arrow-repeat me-2"></i>Reset Recovery Codes
+                                    </a>
+                                </div>
+                            }
+
+                            <!-- Authenticator App Section -->
+                            <div class="border-top pt-4 mt-4">
+                                <h5 class="mb-3">
+                                    <i class="bi bi-phone text-primary me-2"></i>Authenticator App
+                                </h5>
+                                
+                                <div class="d-flex flex-column flex-md-row gap-3">
+                                    @if (!Model.HasAuthenticator)
+                                    {
+                                        <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">
+                                            <i class="bi bi-plus-circle me-2"></i>Add Authenticator App
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">
+                                            <i class="bi bi-gear me-2"></i>Set Up Authenticator
+                                        </a>
+                                        <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-outline-danger">
+                                            <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Authenticator
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                                    <div>
+                                        <strong>Privacy policy not accepted</strong>
+                                        <p class="mb-0">You must accept our privacy and cookie policy before enabling two-factor authentication.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

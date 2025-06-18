@@ -1,0 +1,101 @@
+﻿@* @page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
+                <label asp-for="Username" class="form-label"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+ *@
+
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Account Settings";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+<style>
+    .text-gradient {
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    .account-header {
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        padding-bottom: 1.5rem;
+    }
+
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+</style>
+<!-- Modern Header Section -->
+<div class="account-header mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="display-6 fw-bold text-gradient">Manage Your Account</h1>
+        <div class="status-message">
+            <partial name="_StatusMessage" model="Model.StatusMessage" />
+        </div>
+    </div>
+    <p class="lead text-muted">Customize your profile and security settings</p>
+</div>
+
+<!-- Profile Card -->
+<div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+    <div class="card-header bg-primary bg-opacity-10 py-3">
+        <h2 class="h5 mb-0 fw-semibold text-primary">
+            <i class="bi bi-person-circle me-2"></i>Profile Information
+        </h2>
+    </div>
+    <div class="card-body">
+        <form id="profile-form" method="post">
+            <div class="mb-4">
+                <label asp-for="Username" class="form-label fw-medium">Username</label>
+                <input asp-for="Username" class="form-control form-control-lg" disabled />
+            </div>
+            <div class="mb-4">
+                <label asp-for="Input.PhoneNumber" class="form-label fw-medium">Phone Number</label>
+                <input asp-for="Input.PhoneNumber" class="form-control form-control-lg" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="btn btn-primary px-4 py-2">
+                <i class="bi bi-save me-2"></i>Save Changes
+            </button>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

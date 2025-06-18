@@ -1,0 +1,356 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<link rel="stylesheet" href="~/css/PortFolioView.css" asp-append-version="true" />
+
+
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">AI-Powered Portfolio Creator</h1>
+                <p class="lead mb-4">Our intelligent AI analyzes your work and automatically builds a stunning portfolio that showcases your skills in the best light. No design skills required!</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a asp-action="CreateNewPortFolio" asp-controller="PortFolio" class="btn btn-light btn-lg">Create My Portfolio Now</a>
+                    <a href="#how-it-works" class="btn btn-outline-light btn-lg">See How It Works</a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AI Portfolio Creator" class="img-fluid rounded shadow">
+                    <span class="ai-badge">AI-Generated</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-5 bg-light-custom">
+    <div class="container">
+        <h2 class="section-title text-center">How Our AI Portfolio Creator Works</h2>
+        <p class="text-center text-muted mb-5">Three simple steps to a professional portfolio</p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-upload"></i>
+                    </div>
+                    <h4>1. Upload Your Work</h4>
+                    <p class="text-muted">Add your projects, designs, code repositories, or any other work samples. Our AI will analyze your content.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <h4>2. AI Does Its Magic</h4>
+                    <p class="text-muted">Our AI selects your best work, writes compelling descriptions, and chooses the perfect layout for your field.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-globe"></i>
+                    </div>
+                    <h4>3. Publish & Share</h4>
+                    <p class="text-muted">Get a custom URL to share your professional portfolio with employers, clients, or your network.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AI Features Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="section-title text-center">Smart AI Portfolio Features</h2>
+        <p class="text-center text-muted mb-5">Our artificial intelligence handles the heavy lifting so you don't have to</p>
+
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AI Portfolio Features" class="img-fluid rounded shadow">
+                    <span class="ai-badge">AI Analysis</span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="d-flex mb-3">
+                    <div class="me-3 text-primary">
+                        <i class="bi bi-stars fs-4"></i>
+                    </div>
+                    <div>
+                        <h5>Project Prioritization</h5>
+                        <p class="text-muted mb-0">Our AI evaluates your work and automatically highlights your strongest projects based on complexity, relevance, and results.</p>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-3">
+                    <div class="me-3 text-primary">
+                        <i class="bi bi-pencil-square fs-4"></i>
+                    </div>
+                    <div>
+                        <h5>Smart Descriptions</h5>
+                        <p class="text-muted mb-0">Get AI-generated project descriptions that emphasize your skills and achievements with industry-specific keywords.</p>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-3">
+                    <div class="me-3 text-primary">
+                        <i class="bi bi-layout-wtf fs-4"></i>
+                    </div>
+                    <div>
+                        <h5>Adaptive Layouts</h5>
+                        <p class="text-muted mb-0">The AI selects the optimal portfolio template based on your work type and industry standards.</p>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-4">
+                    <div class="me-3 text-primary">
+                        <i class="bi bi-shield-check fs-4"></i>
+                    </div>
+                    <div>
+                        <h5>Continuous Improvement</h5>
+                        <p class="text-muted mb-0">Our AI learns from successful portfolios in your field and suggests updates to keep yours competitive.</p>
+                    </div>
+                </div>
+
+                <a href="/Portfolio/Create" class="btn btn-primary">Start with AI Portfolio Builder</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Examples Section -->
+<section class="py-5 bg-light-custom">
+    <div class="container">
+        <h2 class="section-title text-center">AI-Generated Portfolio Examples</h2>
+        <p class="text-center text-muted mb-5">See what our AI can create in minutes</p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="position-relative">
+                    <div class="portfolio-preview">
+                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Design Portfolio" class="img-fluid">
+                    </div>
+                    <span class="ai-badge">AI-Curated</span>
+                    <div class="mt-3">
+                        <h5>Design Portfolio</h5>
+                        <p class="text-muted">AI-selected projects with automated case study generation</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="position-relative">
+                    <div class="portfolio-preview">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Developer Portfolio" class="img-fluid">
+                    </div>
+                    <span class="ai-badge">AI-Curated</span>
+                    <div class="mt-3">
+                        <h5>Developer Portfolio</h5>
+                        <p class="text-muted">GitHub integration with automated code highlights</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="position-relative">
+                    <div class="portfolio-preview">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Business Portfolio" class="img-fluid">
+                    </div>
+                    <span class="ai-badge">AI-Curated</span>
+                    <div class="mt-3">
+                        <h5>Business Portfolio</h5>
+                        <p class="text-muted">Results-focused presentation with metrics visualization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="/portfolio/examples" class="btn btn-accent btn-lg">View More AI Examples</a>
+        </div>
+    </div>
+</section>
+
+<!-- Integration Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="section-title text-center">Seamless AI Integrations</h2>
+        <p class="text-center text-muted mb-5">Our portfolio builder connects with the tools you already use</p>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-3 col-lg-2 text-center">
+                <div class="p-4 feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" style="height: 50px;">
+                    <p class="mt-2 mb-0 fw-bold">GitHub</p>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2 text-center">
+                <div class="p-4 feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" style="height: 50px;">
+                    <p class="mt-2 mb-0 fw-bold">LinkedIn</p>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2 text-center">
+                <div class="p-4 feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/733/733609.png" alt="GitLab" style="height: 50px;">
+                    <p class="mt-2 mb-0 fw-bold">GitLab</p>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2 text-center">
+                <div class="p-4 feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111615.png" alt="Slack" style="height: 50px;">
+                    <p class="mt-2 mb-0 fw-bold">Slack</p>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2 text-center">
+                <div class="p-4 feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" alt="Figma" style="height: 50px;">
+                    <p class="mt-2 mb-0 fw-bold">Figma</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <p class="lead">Our AI can import and analyze your existing work from these platforms to build your portfolio automatically</p>
+            <a href="/portfolio/integrations" class="btn btn-outline-primary">See All Integrations</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-light-custom">
+    <div class="container">
+        <h2 class="section-title text-center">What Our Users Say</h2>
+        <p class="text-center text-muted mb-5">Professionals who transformed their job search with AI portfolios</p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Emma R." class="testimonial-img me-3">
+                        <div>
+                            <h5 class="mb-0">Emma R.</h5>
+                            <small class="text-muted">UX Designer</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">"The AI portfolio builder selected my best work and arranged it in a way I never would have thought of. I got compliments from every interviewer!"</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David L." class="testimonial-img me-3">
+                        <div>
+                            <h5 class="mb-0">David L.</h5>
+                            <small class="text-muted">Full Stack Developer</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">"I had dozens of GitHub projects but no time to build a portfolio. The AI analyzed my code and created a stunning showcase in 15 minutes."</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya K." class="testimonial-img me-3">
+                        <div>
+                            <h5 class="mb-0">Priya K.</h5>
+                            <small class="text-muted">Marketing Specialist</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">"The AI wrote better case studies than I could have, highlighting metrics I didn't even think to include. My response rate tripled!"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 text-white" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-5 fw-bold mb-4">Ready to Build Your AI-Powered Portfolio?</h2>
+                <p class="lead mb-5">Join thousands of professionals who showcase their work with our intelligent portfolio builder</p>
+                <a href="/signup" class="btn btn-light btn-lg px-5 me-3">Start Free Trial</a>
+                <a href="/portfolio/examples" class="btn btn-outline-light btn-lg px-5">See Examples</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="section-title text-center">Frequently Asked Questions</h2>
+        <p class="text-center text-muted mb-5">Everything you need to know about our AI Portfolio Creator</p>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="faq-item">
+                    <div class="faq-header" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        How does the AI select which projects to include?
+                    </div>
+                    <div id="faq1" class="collapse show faq-body">
+                        <p>Our AI evaluates multiple factors including project complexity, relevance to your target jobs, demonstrated skills, results achieved, and visual appeal (for creative fields). It compares your work against successful portfolios in your industry to determine which projects will make the strongest impression.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        Can I customize the AI-generated portfolio?
+                    </div>
+                    <div id="faq2" class="collapse faq-body">
+                        <p>Absolutely! While the AI provides an excellent starting point, you have full control to edit any content, rearrange projects, change layouts, and customize colors/fonts. Many users start with the AI's suggestions and then add personal touches.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        What types of work can I include in my portfolio?
+                    </div>
+                    <div id="faq3" class="collapse faq-body">
+                        <p>Our AI portfolio builder supports all types of work: design files, code repositories, writing samples, marketing campaigns, business projects, photography, and more. You can upload files directly or connect to platforms like GitHub, Behance, or Google Drive.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        Is there a limit to how many projects I can include?
+                    </div>
+                    <div id="faq4" class="collapse faq-body">
+                        <p>The free plan allows up to 5 projects. Premium plans allow unlimited projects, and our AI will help you select the optimal number (typically 6-12) to showcase your range without overwhelming viewers.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header collapsed" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        How often does the AI update my portfolio?
+                    </div>
+                    <div id="faq5" class="collapse faq-body">
+                        <p>Our AI continuously monitors your connected accounts (like GitHub or Behance) for new work. It will notify you when it finds new projects worth adding and suggest updates to keep your portfolio fresh. You control when changes are published.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/js/PortFolioView.js" asp-append-version="true"></script>

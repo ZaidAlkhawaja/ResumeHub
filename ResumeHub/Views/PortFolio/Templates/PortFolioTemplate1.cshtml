@@ -1,0 +1,892 @@
+﻿@model ResumeHub.DTOs.PortfolioJsonDto
+@{
+    ViewData["Title"] = Model.Title ?? $"{Model.FirstName} {Model.LastName}'s Portfolio";
+    Layout = "/Views/Shared/_PortfolioLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --lighter: #ffffff;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 7rem 0 5rem;
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 50%;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: white;
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 2.5rem;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .section-title.center:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Project Cards */
+        .project-img {
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .card:hover .project-img {
+            transform: scale(1.05);
+        }
+
+        /* Skills Section */
+
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+        }
+
+        .skills-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .skills-section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: radial-gradient(circle at 10% 20%, rgba(67, 97, 238, 0.05) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(67, 97, 238, 0.05) 0%, transparent 20%);
+            }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skill-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--light-gray);
+        }
+
+            .skill-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(67, 97, 238, 0.15);
+            }
+
+            .skill-card::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                background: var(--primary);
+                transition: all 0.3s ease;
+            }
+
+            .skill-card:hover::before {
+                width: 6px;
+                background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+            }
+
+        .skill-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .skill-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .skill-decoration {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(67, 97, 238, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover .skill-decoration {
+            transform: scale(1.2);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+            .empty-state i {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                color: var(--light-gray);
+            }
+
+            .empty-state p {
+                font-size: 1.1rem;
+            }
+
+        /* Responsive adjustments */
+        media (max-width: 768px) {
+            .skills-grid
+
+        {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        }
+
+        media (max-width: 480px) {
+            .skills-grid
+
+        {
+            grid-template-columns: 1fr;
+        }
+
+        }
+
+        /* Contact Form */
+        .contact-form .form-control {
+            border-radius: 8px;
+            padding: 0.8rem;
+            border: 1px solid var(--light-gray);
+        }
+
+        .contact-form .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(43, 80, 170, 0.25);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .footer-link {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        media (max-width: 768px) {
+            .hero {
+                padding: 5rem 0 3rem;
+            }
+            
+            .profile-img {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .section {
+                padding: 3rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">@Model.FirstName @Model.LastName[0].</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero text-center" id="home">
+        <div class="container">
+            @if (!string.IsNullOrEmpty(Model.ImageBase64))
+            {
+                <img src="data:@Model.ImageContentType;base64,@Model.ImageBase64"
+                     alt="@Model.FirstName @Model.LastName"
+                     class="profile-img mb-4">
+            }
+            <h1 class="display-4 fw-bold mb-3">@Model.FirstName @Model.LastName</h1>
+            <p class="lead mb-4">@Model.Title</p>
+            <div class="mb-4">
+                @if (!string.IsNullOrEmpty(Model.GitHubLink))
+                {
+                    <a href="@Model.GitHubLink" class="social-icon"><i class="fab fa-github"></i></a>
+                }
+                @if (!string.IsNullOrEmpty(Model.LinkedinLink))
+                {
+                    <a href="@Model.LinkedinLink" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                }
+                @if (!string.IsNullOrEmpty(Model.Email))
+                {
+                    <a href="mailto:@Model.Email" class="social-icon"><i class="fas fa-envelope"></i></a>
+                }
+            </div>
+            <a href="#projects" class="btn btn-light btn-lg px-4">View My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section bg-white" id="about">
+        <div class="container">
+            <h2 class="section-title">About <span class="text-primary">Me</span></h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <p class="lead">@Model.Summery</p>
+                    <p>I'm passionate about creating beautiful, functional digital experiences that make a difference. With a focus on user-centered design and clean code, I deliver solutions that work.</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Personal Info</h4>
+                            <div class="row">
+                                @if (!string.IsNullOrEmpty(Model.Email))
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <h6>Email:</h6>
+                                        <p>@Model.Email</p>
+                                    </div>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <h6>Phone:</h6>
+                                        <p>@Model.PhoneNumber</p>
+                                    </div>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Address))
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <h6>Location:</h6>
+                                        <p>@Model.Address</p>
+                                    </div>
+                                }
+                                <div class="col-md-6 mb-3">
+                                    <h6>Freelance:</h6>
+                                    <p>Available</p>
+                                </div>
+                            </div>
+                            <a href="#contact" class="btn btn-primary mt-2">Contact Me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  @*   <!-- Skills Section -->
+    <section class="section bg-light" id="skills">
+        <div class="container">
+            <h2 class="section-title text-center">My <span class="text-primary">Skills</span></h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Technical Skills</h4>
+                            @if (Model.Skills != null )
+                            {
+                                foreach (var skill in Model.Skills.Where(s => s.SkillType == "Technical"))
+                                {
+                                    <div class="skill-item">
+                                        <div class="skill-name">
+                                            <span>@skill.SkillName</span>
+                                            <span>@skill.SkillType</span>
+                                        </div>
+                                        <div class="skill-bar">
+                                            <div class="skill-progress" style="width: @skill.SkillType"></div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Professional Skills</h4>
+                            @if (Model.Skills != null )
+                            {
+                                foreach (var skill in Model.Skills.Where(s => s.SkillType == "Professional"))
+                                {
+                                    <div class="skill-item">
+                                        <div class="skill-name">
+                                            <span>@skill.SkillName</span>
+                                            <span>@skill.SkillType</span>
+                                        </div>
+                                        <div class="skill-bar">
+                                            <div class="skill-progress" style="width: @skill.SkillType"></div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> *@
+
+
+
+
+
+
+
+    @* <section class="section" id="skills">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">My <span class="text-primary">Skills</span></h2>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="skills-card">
+                        <div class="skills-container">
+                            @if (Model.Skills != null && Model.Skills.Any())
+                            {
+                                foreach (var skill in Model.Skills)
+                                {
+                                    <div class="skill-item">
+                                        <span class="skill-name">@skill.SkillName</span>
+                                        <span class="skill-type">@skill.SkillType</span>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="no-skills">No skills added yet</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> *@
+
+
+
+
+
+
+
+    <section class="skills-section" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">My <span class="highlight">Skills</span></h2>
+                <p class="section-subtitle">Technologies and competencies I work with</p>
+            </div>
+
+            <div class="skills-grid">
+                @if (Model.Skills != null && Model.Skills.Any())
+                {
+                    foreach (var skill in Model.Skills)
+                    {
+                        <div class="skill-card" data-type="@skill.SkillType.ToLower()">
+                            <div class="skill-content">
+                                <h3 class="skill-name">@skill.SkillName</h3>
+                                <span class="skill-type">@skill.SkillType</span>
+                            </div>
+                            <div class="skill-decoration"></div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <i class="fas fa-code"></i>
+                        <p>No skills added yet</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Projects Section -->
+    @if (Model.Projects != null && Model.Projects.Any())
+    {
+        <section class="section bg-white" id="projects">
+            <div class="container">
+                <h2 class="section-title">Featured <span class="text-primary">Projects</span></h2>
+                <div class="row">
+                    @foreach (var project in Model.Projects)
+                    {
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card">
+                                @if (!string.IsNullOrEmpty(project.ImageBase64))
+                                {
+                                    <img src="data:@project.ImageContentType;base64,@project.ImageBase64"
+                                         class="card-img-top project-img"
+                                         alt="@project.ProjectName">
+                                }
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h4 class="card-title">@project.ProjectName</h4>
+                                        @if (project.IsOngoing == true)
+                                        {
+                                            <span class="badge bg-success">Ongoing</span>
+                                        }
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(project.StartDate))
+                                    {
+                                        <p class="text-muted small mb-3">
+                                            <i class="far fa-calendar-alt me-1"></i>
+                                            @project.StartDate
+                                            @if (!string.IsNullOrEmpty(project.EndDate) && project.IsOngoing != true)
+                                            {
+                                                @:- @project.EndDate
+                                            }
+                                            else if (project.IsOngoing == true)
+                                            {
+                                                @:- Present
+                                            }
+                                        </p>
+                                    }
+                                    <p class="card-text">@project.ProjectDescription</p>
+                                    <div class="d-flex">
+                                        @if (!string.IsNullOrEmpty(project.ProjectLink))
+                                        {
+                                            <a href="@project.ProjectLink" target="_blank" class="btn btn-outline-primary me-2">
+                                                View Project
+                                            </a>
+                                        }
+                                        <button class="btn btn-primary">Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- Contact Section -->
+    <section class="section bg-light" id="contact">
+        <div class="container">
+            <h2 class="section-title text-center">Get In <span class="text-primary">Touch</span></h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <form asp-action="Contact" asp-controller="Portfolio" method="post" class="contact-form">
+                                <input type="hidden" name="portfolioOwnerEmail" value="@Model.Email" />
+                                <input type="hidden" name="portfolioId" value="@Model.Id" />
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="name" class="form-label">Your Name</label>
+                                        <input type="text" class="form-control" id="name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Your Email</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="subject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" rows="5" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary px-4">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>@Model.FirstName @Model.LastName</h5>
+                    <p>@Model.Title</p>
+                    <div class="mt-3">
+                        @if (!string.IsNullOrEmpty(Model.GitHubLink))
+                        {
+                            <a href="@Model.GitHubLink" class="text-white me-3"><i class="fab fa-github fa-lg"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.LinkedinLink))
+                        {
+                            <a href="@Model.LinkedinLink" class="text-white me-3"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Email))
+                        {
+                            <a href="mailto:@Model.Email" class="text-white"><i class="fas fa-envelope fa-lg"></i></a>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home" class="footer-link">Home</a></li>
+                        <li class="mb-2"><a href="#about" class="footer-link">About</a></li>
+                        <li class="mb-2"><a href="#skills" class="footer-link">Skills</a></li>
+                        <li class="mb-2"><a href="#projects" class="footer-link">Projects</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        @if (!string.IsNullOrEmpty(Model.Email))
+                        {
+                            <li class="mb-2"><a href="mailto:@Model.Email" class="footer-link">@Model.Email</a></li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                        {
+                            <li class="mb-2">@Model.PhoneNumber</li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Address))
+                        {
+                            <li>@Model.Address</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="text-center">
+                <p class="mb-0">&copy; @DateTime.Now.Year @Model.FirstName @Model.LastName. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top btn btn-primary btn-lg rounded-circle shadow">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.opacity = '1';
+                backToTopButton.style.visibility = 'visible';
+            } else {
+                backToTopButton.style.opacity = '0';
+                backToTopButton.style.visibility = 'hidden';
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Animate skill bars on scroll
+        function animateSkills() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            skillBars.forEach(bar => {
+                const width = bar.parentElement.nextElementSibling.textContent.replace('%', '');
+                bar.style.width = width + '%';
+            });
+        }
+
+        // Only animate skills when they come into view
+        const skillsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateSkills();
+                    skillsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const skillsSection = document.getElementById('skills');
+        if (skillsSection) {
+            skillsObserver.observe(skillsSection);
+        }
+    </script>
+</body>
+</html>

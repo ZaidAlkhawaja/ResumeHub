@@ -1,0 +1,262 @@
+﻿@{
+    Layout = "/Views/Shared/_AdminLayout.cshtml";
+  
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | ResumeHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #2e59d9;
+            --accent-color: #1cc88a;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fc;
+            --gray-color: #6C757D;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .navbar {
+            background-color: var(--white) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 0.75rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary-color) !important;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+        .stat-card {
+            background-color: var(--white);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray-color);
+            font-weight: 500;
+        }
+
+        .admin-table {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .review-card {
+            border-left: 3px solid var(--primary-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: var(--white);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .logout-btn {
+            background-color: var(--gray-color);
+            border: none;
+        }
+
+            .logout-btn:hover {
+                background-color: var(--dark-color);
+            }
+
+        .dashboard-header {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-file-earmark-person-fill me-2"></i>ResumeHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Admin Dashboard</a></li>
+                    <li class="nav-item"><a asp-action="Index" asp-controller="Resume" class="nav-link" >Resumes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/portfolio">Portfolio</a></li>
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h2>Admin Dashboard</h2>
+            <p class="text-muted">Welcome back, Admin! Manage your ResumeHub platform from here.</p>
+        </div>
+
+        <!-- Statistics Row -->
+        <div class="row">
+            <!-- Resumes Stat -->
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="stat-value">1,245</div>
+                    <div class="stat-label">Resumes Created</div>
+                </div>
+            </div>
+
+            <!-- Portfolios Stat -->
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="stat-value">876</div>
+                    <div class="stat-label">Portfolios Created</div>
+                </div>
+            </div>
+
+            <!-- Users Stat -->
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="stat-value">5,632</div>
+                    <div class="stat-label">Registered Users</div>
+                </div>
+            </div>
+
+            <!-- Deleted Stat -->
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="stat-value">128</div>
+                    <div class="stat-label">Deleted Items</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="admin-table">
+            <h4>Login Activity</h4>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Login Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>user123</td>
+                        <td>2024-06-15 10:30 AM</td>
+                        <td><span class="badge bg-success">Active</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>john_doe</td>
+                        <td>2024-06-15 09:15 AM</td>
+                        <td><span class="badge bg-success">Active</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>jane_smith</td>
+                        <td>2024-06-14 16:45 PM</td>
+                        <td><span class="badge bg-secondary">Logged Out</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="admin-table">
+            <h4>User Reviews</h4>
+            <div class="review-card">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="flex-shrink-0">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" width="40" height="40" class="rounded-circle">
+                    </div>
+                    <div class="ms-3">
+                        <h5 class="mb-0">Sarah J.</h5>
+                        <small class="text-muted">Marketing Manager</small>
+                    </div>
+                </div>
+                <p class="mb-0">"The AI resume builder helped me craft bullet points I would never have thought of. I got three interview calls within a week of applying!"</p>
+                <div class="mt-2">
+                    <span class="badge bg-success">Approved</span>
+                    <span class="ms-2"><a href="#" class="text-danger">Delete</a></span>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="flex-shrink-0">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" width="40" height="40" class="rounded-circle">
+                    </div>
+                    <div class="ms-3">
+                        <h5 class="mb-0">Michael T.</h5>
+                        <small class="text-muted">Software Developer</small>
+                    </div>
+                </div>
+                <p class="mb-0">"The AI portfolio creator analyzed my GitHub and selected my best projects automatically. It saved me hours of work!"</p>
+                <div class="mt-2">
+                    <span class="badge bg-success">Approved</span>
+                    <span class="ms-2"><a href="#" class="text-danger">Delete</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple authentication check - replace with proper server-side authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if admin is logged in (this is just a placeholder)
+            if (!isAdminLoggedIn()) {
+                // Redirect to login page if not authenticated
+                window.location.href = '/login';
+            }
+        });
+
+        function isAdminLoggedIn() {
+            // This is a placeholder - implement proper server-side authentication
+            // For demo purposes, we'll just return true
+            return true;
+        }
+    </script>
+</body>
+</html>

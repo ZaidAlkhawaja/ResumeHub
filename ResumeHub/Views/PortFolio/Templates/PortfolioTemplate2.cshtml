@@ -1,0 +1,1518 @@
+﻿@model ResumeHub.DTOs.PortfolioJsonDto
+@{
+    ViewData["Title"] = Model.Title ?? $"{Model.FirstName} {Model.LastName}'s Portfolio";
+    Layout = "/Views/Shared/_PortfolioLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #a29bfe;
+            --primary-dark: #4b44c0;
+            --dark: #2d3436;
+            --darker: #1a1a1a;
+            --light: #f8f9fa;
+            --gray: #636e72;
+            --light-gray: #dfe6e9;
+            --success: #00b894;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.7;
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            padding: 1.2rem 0;
+            transition: all 0.4s ease;
+        }
+
+            .navbar.scrolled {
+                padding: 0.8rem 0;
+                backdrop-filter: blur(10px);
+                background-color: rgba(255, 255, 255, 0.85);
+            }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+            .nav-link:before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 2px;
+                background: var(--primary);
+                transition: all 0.3s ease;
+            }
+
+            .nav-link:hover, .nav-link.active {
+                color: var(--primary);
+            }
+
+                .nav-link:hover:before, .nav-link.active:before {
+                    width: 60%;
+                }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 8rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            }
+
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+            .profile-img:hover {
+                transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+                box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+            }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 50%;
+            margin: 0 0.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .social-icon:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, var(--primary-light), var(--primary));
+                opacity: 0;
+                transition: all 0.3s ease;
+                z-index: -1;
+            }
+
+            .social-icon:hover {
+                color: white;
+                transform: translateY(-5px) scale(1.1);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            }
+
+                .social-icon:hover:after {
+                    opacity: 1;
+                }
+
+        .hero-btn {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            border: 2px solid white;
+            transition: all 0.4s ease;
+        }
+
+            .hero-btn:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: white;
+                transition: all 0.4s ease;
+                z-index: -1;
+            }
+
+            .hero-btn:hover {
+                color: var(--primary);
+            }
+
+                .hero-btn:hover:before {
+                    left: 0;
+                }
+
+        /* Floating animation */
+        keyframes float {
+            0%
+
+        {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+            color: var(--darker);
+            font-weight: 700;
+            display: inline-block;
+        }
+
+            .section-title:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -10px;
+                width: 70px;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary), var(--primary-light));
+                border-radius: 3px;
+            }
+
+            .section-title.center:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+            .glass-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            }
+
+        /* Service Cards */
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            padding: 2.5rem 2rem;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+            .service-card:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, var(--primary), var(--primary-light));
+                opacity: 0;
+                transition: all 0.4s ease;
+                z-index: -1;
+            }
+
+            .service-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+                color: white;
+            }
+
+                .service-card:hover:before {
+                    opacity: 1;
+                }
+
+                .service-card:hover .service-icon,
+                .service-card:hover h4 {
+                    color: white !important;
+                }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: all 0.4s ease;
+        }
+
+        /* Project Cards */
+        .project-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+            .project-card:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+                opacity: 0;
+                transition: all 0.4s ease;
+                z-index: 1;
+            }
+
+            .project-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            }
+
+                .project-card:hover:before {
+                    opacity: 1;
+                }
+
+        .project-img {
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.6s ease;
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            color: white;
+            transition: all 0.4s ease;
+            z-index: 2;
+        }
+
+        .project-card:hover .project-content {
+            bottom: 0;
+        }
+
+        .project-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.2s;
+        }
+
+        .project-card:hover .project-badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Skills Section */
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+            .skill-badge:hover {
+                background-color: var(--primary-light);
+                transform: translateY(-2px);
+            }
+
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 4px;
+            transition: width 1.5s ease;
+            width: 0;
+        }
+
+        /* Testimonials */
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin: 1rem;
+            position: relative;
+        }
+
+            .testimonial-card:before {
+                content: '\201C';
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                font-size: 5rem;
+                color: var(--primary-light);
+                opacity: 0.2;
+                font-family: serif;
+                line-height: 1;
+            }
+
+        .testimonial-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-light);
+        }
+
+        /* Contact Form */
+        .contact-form .form-control {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+            .contact-form .form-control:focus {
+                box-shadow: 0 5px 20px rgba(108, 99, 255, 0.2);
+            }
+
+        .contact-form textarea.form-control {
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            border: none;
+            padding: 0.8rem 2.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .submit-btn:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: rgba(255,255,255,0.2);
+                transition: all 0.4s ease;
+            }
+
+            .submit-btn:hover {
+                background: var(--primary-dark);
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
+            }
+
+                .submit-btn:hover:before {
+                    left: 100%;
+                }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 5rem 0 2rem;
+            position: relative;
+        }
+
+            footer:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 10px;
+                background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            }
+
+        .footer-link {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+            .footer-link:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 1px;
+                background: white;
+                transition: all 0.3s ease;
+            }
+
+            .footer-link:hover {
+                color: white;
+            }
+
+                .footer-link:hover:after {
+                    width: 100%;
+                }
+
+        .social-footer {
+            display: inline-flex;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            margin-right: 0.5rem;
+        }
+
+            .social-footer:hover {
+                background: var(--primary);
+                transform: translateY(-5px);
+            }
+
+        /* Particles Background */
+        .particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+            .animate-on-scroll.animated {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        /* Responsive */
+        media (max-width: 992px) {
+            .hero
+
+        {
+            padding: 6rem 0 4rem;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        }
+
+        media (max-width: 768px) {
+            .hero
+
+        {
+            padding: 5rem 0 3rem;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .section {
+            padding: 3rem 0;
+        }
+
+        .section-title:after {
+            width: 50px;
+            bottom: -8px;
+        }
+
+        }
+
+        media (max-width: 576px) {
+            .hero
+
+        {
+            padding: 4rem 0 2rem;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    @* @RenderBody() *@
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">@Model.FirstName @Model.LastName[0].</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero text-center" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-lg-start text-center mb-5 mb-lg-0">
+                    <h1 class="display-3 fw-bold mb-3 animate-on-scroll">Hi, I'm <span class="text-primary">@Model.FirstName</span></h1>
+                    <h2 class="h4 mb-4 animate-on-scroll" style="animation-delay: 0.2s">@Model.Title</h2>
+                    <p class="lead mb-4 animate-on-scroll" style="animation-delay: 0.3s">@Model.Summery</p>
+                    <div class="animate-on-scroll" style="animation-delay: 0.4s">
+                        <a href="#projects" class="btn btn-light btn-lg hero-btn me-3">View My Work</a>
+                        <a href="#contact" class="btn btn-outline-light btn-lg hero-btn">Hire Me</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 animate-on-scroll floating" style="animation-delay: 0.5s">
+                    @if (!string.IsNullOrEmpty(Model.ImageBase64))
+                    {
+                        <img src="data:@Model.ImageContentType;base64,@Model.ImageBase64"
+                             alt="@Model.FirstName @Model.LastName"
+                             class="profile-img img-fluid mx-auto">
+                    }
+                </div>
+            </div>
+            <div class="mt-5 animate-on-scroll" style="animation-delay: 0.6s">
+                @if (!string.IsNullOrEmpty(Model.GitHubLink))
+                {
+                    <a href="@Model.GitHubLink" class="social-icon"><i class="fab fa-github"></i></a>
+                }
+                @if (!string.IsNullOrEmpty(Model.LinkedinLink))
+                {
+                    <a href="@Model.LinkedinLink" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                }
+              
+                @if (!string.IsNullOrEmpty(Model.Email))
+                {
+                    <a href="mailto:@Model.Email" class="social-icon"><i class="fas fa-envelope"></i></a>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section bg-white" id="about">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-5 mb-lg-0 animate-on-scroll">
+                    <h2 class="section-title">About <span class="text-primary">Me</span></h2>
+                    <p>@Model.Summery</p>
+                    <div class="row mt-4">
+                        <div class="col-sm-6 mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-calendar-alt fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Experience</h6>
+                                    <small class="text-muted"> 5+ Years Working</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Projects</h6>
+                                    <small class="text-muted">@Model.Projects.Count  Completed</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-users fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Clients</h6>
+                                    <small class="text-muted">30+ Worldwide</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-trophy fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Awards</h6>
+                                    <small class="text-muted">10+ Achieved</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 animate-on-scroll" style="animation-delay: 0.2s">
+                    <div class="glass-card">
+                        <h4 class="mb-4">Personal Info</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h6><i class="fas fa-user me-2 text-primary"></i> Full Name</h6>
+                                <p class="text-muted">@Model.FirstName @Model.LastName</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h6><i class="fas fa-briefcase me-2 text-primary"></i> Profession</h6>
+                                <p class="text-muted">@Model.Title</p>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                <div class="col-md-6 mb-4">
+                                    <h6><i class="fas fa-envelope me-2 text-primary"></i> Email</h6>
+                                    <p class="text-muted">@Model.Email</p>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                            {
+                                <div class="col-md-6 mb-4">
+                                    <h6><i class="fas fa-phone me-2 text-primary"></i> Phone</h6>
+                                    <p class="text-muted">@Model.PhoneNumber</p>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Address))
+                            {
+                                <div class="col-md-6 mb-4">
+                                    <h6><i class="fas fa-map-marker-alt me-2 text-primary"></i> Location</h6>
+                                    <p class="text-muted">@Model.Address</p>
+                                </div>
+                            }
+                            <div class="col-md-6 mb-4">
+                                <h6><i class="fas fa-calendar me-2 text-primary"></i> Birthday</h6>
+                                <p class="text-muted">June 15, 1990</p>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary mt-2">Download CV</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+   @*  <section class="section bg-light" id="skills">
+        <div class="container">
+            <h2 class="section-title text-center mb-5 animate-on-scroll">My <span class="text-primary">Skills</span></h2>
+            <div class="row">
+                <div class="col-lg-6 animate-on-scroll">
+                    <div class="glass-card">
+                        <h4 class="mb-4">Technical Skills</h4>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span> Web Development</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>UI/UX Design</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Mobile Development</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Database Design</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 animate-on-scroll" style="animation-delay: 0.2s">
+                    <div class="glass-card">
+                        <h4 class="mb-4">Professional Skills</h4>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Communication</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Team Work</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Project Management</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Creativity</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ *@
+
+
+
+
+    <section class="section bg-light" id="skills">
+        <div class="container">
+            <h2 class="section-title text-center mb-5 animate-on-scroll">My <span class="text-primary">Skills</span></h2>
+            <div class="row">
+                <div class="col-12 animate-on-scroll">
+                    <div class="glass-card">
+                        <h4 class="mb-4">Skills</h4>
+                        @if (Model.Skills != null && Model.Skills.Any())
+                        {
+                            <div class="skills-container flex-wrap">
+                                @foreach (var skill in Model.Skills)
+                                {
+                                    <span class="skill-badge me-2 mb-2">
+                                        @skill.SkillName
+                                        <span class="badge bg-secondary ms-2" style="font-size: 0.8em;">@skill.SkillType</span>
+                                    </span>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No skills added.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Services Section -->
+    
+        <section class="section bg-white" id="services">
+            <div class="container">
+                <div class="text-center mb-5 animate-on-scroll">
+                    <h2 class="section-title">My <span class="text-primary">Services</span></h2>
+                    <p class="lead">What I can do for you</p>
+                </div>
+                <div class="row">
+                    @foreach (var service in Model.Services)
+                    {
+                        <div class="col-md-6 col-lg-4 mb-4 animate-on-scroll">
+                            <div class="service-card text-center p-4">
+                                <div class="service-icon mx-auto">
+                                    <i class="fas fa-laptop-code"></i>
+                                </div>
+                                <h4>@service.ServiceName</h4>
+                                <p>@service.ServiceDescription</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    
+
+    <!-- Projects Section -->
+   
+        <section class="section bg-light" id="projects">
+            <div class="container">
+                <div class="text-center mb-5 animate-on-scroll">
+                    <h2 class="section-title">My <span class="text-primary">Projects</span></h2>
+                    <p class="lead">Some of my recent work</p>
+                </div>
+                <div class="row">
+                    @foreach (var project in Model.Projects)
+                    {
+                        <div class="col-md-6 col-lg-4 mb-4 animate-on-scroll">
+                            <div class="project-card">
+                                @if (!string.IsNullOrEmpty(project.ImageBase64))
+                                {
+                                    <img src="data:@project.ImageContentType;base64,@project.ImageBase64"
+                                         class="project-img w-100"
+                                         alt="@project.ProjectName">
+                                }
+                                <div class="project-content">
+                                    <h4>@project.ProjectName</h4>
+                                    <p>@project.ProjectDescription</p>
+                                    <div class="d-flex">
+                                        @if (!string.IsNullOrEmpty(project.ProjectLink))
+                                        {
+                                            <a href="@project.ProjectLink" target="_blank" class="btn btn-sm btn-primary me-2">
+                                                View Project
+                                            </a>
+                                        }
+                                        <button class="btn btn-sm btn-outline-light">Details</button>
+                                    </div>
+                                </div>
+                                @if (project.IsOngoing == true)
+                                {
+                                    <span class="project-badge badge bg-success">Ongoing</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="text-center mt-4 animate-on-scroll">
+                    <a href="#" class="btn btn-primary">View All Projects</a>
+                </div>
+            </div>
+        </section>
+    
+
+    <!-- Testimonials Section -->
+    <section class="section bg-white" id="testimonials">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="section-title">Client <span class="text-primary">Testimonials</span></h2>
+                <p class="lead">What my clients say about me</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 animate-on-scroll">
+                    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="testimonial-card">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="testimonial-img me-3" alt="Client">
+                                        <div>
+                                            <h5 class="mb-0">John Smith</h5>
+                                            <small class="text-muted">CEO at TechCorp</small>
+                                        </div>
+                                    </div>
+                                    <p class="mb-0">"Working with @Model.FirstName was an absolute pleasure. Their attention to detail and creative approach resulted in a website that exceeded our expectations."</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="testimonial-card">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="testimonial-img me-3" alt="Client">
+                                        <div>
+                                            <h5 class="mb-0">Sarah Johnson</h5>
+                                            <small class="text-muted">Marketing Director at DesignHub</small>
+                                        </div>
+                                    </div>
+                                    <p class="mb-0">"@Model.FirstName delivered our project on time and within budget. The quality of work was exceptional and we've seen a significant increase in user engagement."</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="testimonial-card">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <img src="https://randomuser.me/api/portraits/men/75.jpg" class="testimonial-img me-3" alt="Client">
+                                        <div>
+                                            <h5 class="mb-0">Michael Brown</h5>
+                                            <small class="text-muted">Founder of StartupX</small>
+                                        </div>
+                                    </div>
+                                    <p class="mb-0">"I've worked with many developers, but @Model.FirstName stands out for their problem-solving skills and ability to understand business needs."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section bg-light" id="contact">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5 animate-on-scroll">
+                    <h2 class="section-title">Get In <span class="text-primary">Touch</span></h2>
+                    <p class="lead">Have a project in mind or want to discuss potential opportunities? Feel free to contact me!</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0 animate-on-scroll">
+                    <div class="glass-card h-100">
+                        <h4 class="mb-4">Contact Info</h4>
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="me-3 text-primary">
+                                <i class="fas fa-map-marker-alt fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6>Location</h6>
+                                <p class="text-muted mb-0">@Model.Address</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="me-3 text-primary">
+                                <i class="fas fa-envelope fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6>Email</h6>
+                                <p class="text-muted mb-0">@Model.Email</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="me-3 text-primary">
+                                <i class="fas fa-phone fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6>Phone</h6>
+                                <p class="text-muted mb-0">@Model.PhoneNumber</p>
+                            </div>
+                        </div>
+                        <div class="mt-5">
+                            <h6 class="mb-3">Follow Me</h6>
+                            <div>
+                                @if (!string.IsNullOrEmpty(Model.GitHubLink))
+                                {
+                                    <a href="@Model.GitHubLink" class="social-footer"><i class="fab fa-github"></i></a>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.LinkedinLink))
+                                {
+                                    <a href="@Model.LinkedinLink" class="social-footer"><i class="fab fa-linkedin-in"></i></a>
+                                }
+                              
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 animate-on-scroll" style="animation-delay: 0.2s">
+                    <div class="glass-card">
+                        <form asp-action="Contact" asp-controller="Portfolio" method="post" class="contact-form">
+                            <input type="hidden" name="portfolioOwnerEmail" value="@Model.Email" />
+                            <input type="hidden" name="portfolioId" value="@Model.Id" />
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label for="name" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="email" class="form-label">Your Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="6" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary submit-btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h5 class="text-white mb-4">@Model.FirstName @Model.LastName</h5>
+                    <p>A passionate @Model.Title dedicated to creating beautiful and functional digital experiences.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home" class="footer-link">Home</a></li>
+                        <li class="mb-2"><a href="#about" class="footer-link">About</a></li>
+                        <li class="mb-2"><a href="#skills" class="footer-link">Skills</a></li>
+                        <li class="mb-2"><a href="#projects" class="footer-link">Projects</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+                    <h5 class="text-white mb-4">Services</h5>
+                    <ul class="list-unstyled">
+                        
+                            @foreach (var service in @Model.Services.Take(4))
+                            {
+                                <li class="mb-2"><a href="#services" class="footer-link">@service.ServiceName</a></li>
+                            }
+                        
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Newsletter</h5>
+                    <p class="text-muted">Subscribe to my newsletter for the latest updates.</p>
+                    <form class="mb-3">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your Email">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="my-5 bg-secondary">
+            <div class="text-center">
+                <p class="mb-0">&copy; @DateTime.Now.Year @Model.FirstName @Model.LastName. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top btn btn-primary btn-lg rounded-circle shadow">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('particles-js')) {
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": {
+                            "value": 80,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#ffffff"
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            },
+                            "polygon": {
+                                "nb_sides": 5
+                            }
+                        },
+                        "opacity": {
+                            "value": 0.3,
+                            "random": false,
+                            "anim": {
+                                "enable": false,
+                                "speed": 1,
+                                "opacity_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true,
+                            "anim": {
+                                "enable": false,
+                                "speed": 40,
+                                "size_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 150,
+                            "color": "#ffffff",
+                            "opacity": 0.2,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 2,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 1200
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "grab"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 140,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "bubble": {
+                                "distance": 400,
+                                "size": 40,
+                                "duration": 2,
+                                "opacity": 8,
+                                "speed": 3
+                            },
+                            "repulse": {
+                                "distance": 200,
+                                "duration": 0.4
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            },
+                            "remove": {
+                                "particles_nb": 2
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Animate on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Animate skill bars
+        function animateSkills() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+
+            skillBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.width = '0';
+
+                setTimeout(() => {
+                    bar.style.width = width + '%';
+                }, 100);
+            });
+        }
+
+        // Only animate skills when they come into view
+        const skillsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateSkills();
+                    skillsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const skillsSection = document.getElementById('skills');
+        if (skillsSection) {
+            skillsObserver.observe(skillsSection);
+        }
+
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.opacity = '1';
+                backToTopButton.style.visibility = 'visible';
+            } else {
+                backToTopButton.style.opacity = '0';
+                backToTopButton.style.visibility = 'hidden';
+            }
+        });
+
+        backToTopButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

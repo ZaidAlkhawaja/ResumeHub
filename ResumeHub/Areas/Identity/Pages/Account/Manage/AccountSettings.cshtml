@@ -1,0 +1,133 @@
+﻿@page
+@model ResumeHub.Areas.Identity.Pages.Account.Manage.AccountSettingsModel
+@{
+    ViewData["Title"] = "Account Settings";
+    ViewData["ActivePage"] = ManageNavPages.AccountSettingsNavClass;
+}
+<style>
+    .account-settings-container {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 2rem;
+    }
+
+    .sidebar {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    .main-content {
+        flex: 1;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle {
+        color: #6c757d;
+        margin-bottom: 2rem;
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        color: white;
+        border: none;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+    }
+</style>
+<div class="account-settings-container">
+    <div class="sidebar">
+        <partial name="_ManageNav" />
+    </div>
+
+    <div class="main-content">
+        <h3 class="page-title">@ViewData["Title"]</h3>
+        <p class="page-subtitle">Change your account settings</p>
+
+        <div class="card">
+            <h4 class="card-title">Profile Information</h4>
+            <form id="profile-form" method="post">
+                <div class="form-group">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="form-control" disabled />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.PhoneNumber"></label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h4 class="card-title">Security Settings</h4>
+            <div class="form-group">
+                <label>Password</label>
+                <a id="change-password" asp-page="./ChangePassword" class="btn btn-secondary">Change Password</a>
+            </div>
+            <div class="form-group">
+                <label>Two-factor authentication</label>
+                @if (Model.IsTwoFactorEnabled)
+                {
+                    <a asp-page="./Disable2fa" class="btn btn-secondary">Disable 2FA</a>
+                }
+                else
+                {
+                    <a asp-page="./Enable2fa" class="btn btn-secondary">Enable 2FA</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

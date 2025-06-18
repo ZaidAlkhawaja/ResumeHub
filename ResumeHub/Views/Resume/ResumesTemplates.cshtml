@@ -1,0 +1,12 @@
+﻿@model ResumeHub.DTOs.ResumeJsonDto
+@{
+    Layout = "/Views/Shared/_ResumeLayout.cshtml";
+    ViewData["Title"] = "Generated Resume";
+    var t = Model.ResumeTemplateId;
+    if (t < 1 || t > 4)
+    {
+        t = 1;
+    }
+  
+}
+@await Html.PartialAsync($"Templates/ResumeTemplate{t}", @Model)
