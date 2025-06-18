@@ -13,11 +13,14 @@ using ResumeHub.Repositories;
 using MailKit.Security;
 using MimeKit;
 using Microsoft.Extensions.Options;
+using MailKit.Net.Smtp;
 
 namespace ResumeHub.Controllers
 {
     public class PortfolioController : Controller
     {
+        private readonly ILogger<PortfolioController> _logger;
+
         private readonly IPortfolioOpenAiService _portfolioOpenAiService;
         private readonly IPortFolioRepository _portfolioRepo;
         private readonly EmailSettings _emailSettings;
@@ -31,6 +34,7 @@ namespace ResumeHub.Controllers
             _emailSettings = emailSettings.Value;
         }
 
+       
         public IActionResult PortFolioPage()
         {
             
@@ -417,100 +421,162 @@ namespace ResumeHub.Controllers
     
         }
 
-        // Here is a Dummy method for the  PortfolioTemplate1() view, you can remove it if not needed
-        // public IActionResult PortfolioTemplate1()
-        //{
 
-        //    return View(dummy);
-        //}
 
-        //private Portfolio MapToPortfolioEntity(PortfolioJsonDto dto, string userId)
+        //[HttpPost, ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Contact(int portfolioId, string name, string email, string subject, string message)
         //{
-        //    return new Portfolio
+        //    // 1. Look up the portfolio (and its owner’s email) :contentReference[oaicite:1]{index=1}
+        //    var portfolio = await _portfolioRepo.GetPortFolioById(portfolioId);
+        //    if (portfolio == null)
+        //        return NotFound();
+
+        //    // 2. Build the email
+        //    var mime = new MimeMessage();
+        //    mime.From.Add(new MailboxAddress(
+        //        _emailSettings.FromName,
+        //        _emailSettings.FromAddress));
+        //    mime.To.Add(new MailboxAddress(
+        //        $"{portfolio.firstName} {portfolio.lastName}",
+        //        portfolio.Email));
+        //    mime.Subject = subject;
+
+        //    // Include the visitor’s info in the body
+        //    var body = new BodyBuilder
         //    {
-        //        // Top-level properties:
-        //        FirstName = dto.FirstName,
-        //        LastName = dto.LastName,
-        //        Email = dto.Email,
-        //        PhoneNumber = dto.PhoneNumber,
-        //        Title = dto.Title,
-        //        Address = dto.Address,
-        //        Summery = dto.Summery,
-        //        GitHubLink = dto.GitHubLink,
-        //        LinkedinLink = dto.LinkedinLink,
-        //        EndUserId = userId,
+        //        TextBody = $@"
+        //        Name:    {name}
+        //        Email:   {email}
 
-        //        // Timestamps
-        //        CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow).ToString(),
-        //        ModifiedDate = DateTime.UtcNow.ToString(),
-        //        IsDeleted = false,
-
-        //        // Services
-        //        Services = dto.Services?.Select(s => new Service
-        //        {
-        //            ServiceName = s.ServiceName,
-        //            ServiceDescription = s.ServiceDescription
-        //        }).ToList() ?? new List<Service>(),
-
-        //        // Projects
-        //        Projects = dto.Projects?.Select(p => new Project
-        //        {
-        //            ProjectName = p.ProjectName,
-        //            ProjectDescription = p.ProjectDescription,
-        //            StartDate = string.IsNullOrWhiteSpace(p.StartDate) ? null : p.StartDate,
-        //            EndDate = string.IsNullOrWhiteSpace(p.EndDate) ? null : p.EndDate,
-        //            IsOngoing = p.IsOngoing,
-        //            ProjectLink = p.ProjectLink
-        //        }).ToList() ?? new List<Project>()
+        //         Message:{message} "
         //    };
+        //    mime.Body = body.ToMessageBody();
+
+        //    // 3. Send via SMTP
+        //    using var client = new MailKit.Net.Smtp.SmtpClient();
+        //    await client.ConnectAsync(
+        //        _emailSettings.Host,
+        //        _emailSettings.Port,
+        //        SecureSocketOptions.StartTls);
+        //    await client.AuthenticateAsync(
+        //        _emailSettings.Username,
+        //        _emailSettings.Password);
+        //    await client.SendAsync(mime);
+        //    await client.DisconnectAsync(true);
+
+        //    // 4. Confirm to user (e.g. TempData + redirect back)
+        //    TempData["ContactSuccess"] = "Your message has been sent!";
+        //    var ID = portfolioId;
+        //    return RedirectToAction("PortFoliosTemplates", new { ID });
         //}
 
-        //public List<PortfolioJsonDto> MapToPortfolioJsonDtoList(List<Portfolio> portfolios)
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Contact(int portfolioId, string name, string email, string subject, string message)
         //{
-        //    if (portfolios == null || portfolios.Count == 0)
-        //        return new List<PortfolioJsonDto>();
-
-        //    return portfolios.Select(p => new PortfolioJsonDto
+        //    try
         //    {
-        //        Title = p.Title,
-        //        FirstName = p.FirstName,
-        //        LastName = p.LastName,
-        //        Email = p.Email,
-        //        PhoneNumber = p.PhoneNumber,
-        //        Address = p.Address,
-        //        Summery = p.Summery,
-        //        GitHubLink = p.GitHubLink,
-        //        LinkedinLink = p.LinkedinLink,
-
-        //        Services = p.Services?.Select(s => new ServiceItem
+        //        // 1. Validate input
+        //        if (string.IsNullOrWhiteSpace(name) ||
+        //            string.IsNullOrWhiteSpace(email) ||
+        //            string.IsNullOrWhiteSpace(subject) ||
+        //            string.IsNullOrWhiteSpace(message))
         //        {
-        //            ServiceName = s.ServiceName,
-        //            ServiceDescription = s.ServiceDescription
-        //        }).ToList() ?? new List<ServiceItem>(),
+        //            TempData["ContactError"] = "All fields are required.";
+        //            return RedirectToAction("PortFoliosTemplates", new { ID = portfolioId });
+        //        }
 
-        //        Projects = p.Projects?.Select(proj => new ProjectItem1
+        //        // 2. Get portfolio
+        //        var portfolio = await _portfolioRepo.GetPortFolioById(portfolioId);
+        //        if (portfolio == null)
         //        {
-        //            ProjectName = proj.ProjectName,
-        //            ProjectDescription = proj.ProjectDescription,
-        //            StartDate = proj.StartDate,
-        //            EndDate = proj.EndDate,
+        //            TempData["ContactError"] = "Portfolio not found.";
+        //            return NotFound();
+        //        }
 
-        //            ProjectLink = proj.ProjectLink
-        //        }).ToList() ?? new List<ProjectItem1>()
-        //    }).ToList();
+        //        // 3. Build email message
+        //        var mimeMessage = new MimeMessage();
+        //        mimeMessage.From.Add(new MailboxAddress(
+        //            _emailSettings.FromName,
+        //            _emailSettings.FromAddress));
+        //        mimeMessage.To.Add(new MailboxAddress(
+        //            $"{portfolio.firstName} {portfolio.lastName}",
+        //            portfolio.Email));
+        //        mimeMessage.Subject = $"[Portfolio Contact] {subject}";
+        //        mimeMessage.ReplyTo.Add(new MailboxAddress(name, email));
+
+        //        var bodyBuilder = new BodyBuilder
+        //        {
+        //            HtmlBody = $@"
+        //    <h3>New Contact Message From Your Portfolio</h3>
+        //    <p><strong>From:</strong> {name} &lt;{email}&gt;</p>
+        //    <p><strong>Subject:</strong> {subject}</p>
+        //    <hr>
+        //    <p>{message.Replace("\n", "<br>")}</p>
+        //    <hr>
+        //    <p>You can reply directly to this email to contact {name}.</p>",
+
+        //            TextBody = $@"
+        //    New Contact Message From Your Portfolio
+        //    ======================================
+        //    From: {name} <{email}>
+        //    Subject: {subject}
+        //    -------------------------------
+        //    {message}
+        //    -------------------------------
+        //    You can reply directly to this email to contact {name}."
+        //        };
+
+        //        mimeMessage.Body = bodyBuilder.ToMessageBody();
+
+        //        // 4. Send email
+        //        using var smtpClient = new SmtpClient();
+
+        //        await smtpClient.ConnectAsync(
+        //            _emailSettings.Host,
+        //            _emailSettings.Port,
+        //            SecureSocketOptions.StartTls);
+
+        //        await smtpClient.AuthenticateAsync(
+        //            _emailSettings.Username,
+        //            _emailSettings.Password);
+
+        //        await smtpClient.SendAsync(mimeMessage);
+        //        await smtpClient.DisconnectAsync(true);
+
+        //        // 5. Log successful contact (optional)
+
+        //        _logger.LogInformation("Contact form submitted for portfolio {PortfolioId} by {Email}", portfolioId, email);
+
+        //        // 6. Return success response
+        //        TempData["ContactSuccess"] = "Your message has been sent successfully!";
+        //        return RedirectToAction("PortFoliosTemplates", new { ID = portfolioId });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error sending contact message for portfolio {PortfolioId}", portfolioId);
+        //        TempData["ContactError"] = "An error occurred while sending your message. Please try again later.";
+        //        return RedirectToAction("PortFoliosTemplates", new { ID = portfolioId });
+        //    }
         //}
 
 
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Contact(int portfolioId,string name,string email,string subject,  string message)
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Contact(int portfolioId, string name, string email, string subject, string message)
         {
-            // 1. Look up the portfolio (and its owner’s email) :contentReference[oaicite:1]{index=1}
+            // 1. Look up the portfolio
             var portfolio = await _portfolioRepo.GetPortFolioById(portfolioId);
             if (portfolio == null)
                 return NotFound();
 
-            // 2. Build the email
+            // 2. Build the email with cleaner formatting
             var mime = new MimeMessage();
             mime.From.Add(new MailboxAddress(
                 _emailSettings.FromName,
@@ -520,18 +586,21 @@ namespace ResumeHub.Controllers
                 portfolio.Email));
             mime.Subject = subject;
 
-            // Include the visitor’s info in the body
+            // Clean, professional message formatting
             var body = new BodyBuilder
             {
-                TextBody = $@"
-                Name:    {name}
-                Email:   {email}
-
-                 Message:{message} "
+                TextBody = $"Contact Form Submission\n" +
+                          $"-----------------------\n" +
+                          $"Name: {name}\n" +
+                          $"Email: {email}\n\n" +
+                          $"Message:\n" +
+                          $"{message.Trim()}\n\n" +
+                          $"-----------------------\n" +
+                          $"Sent from your portfolio contact form"
             };
             mime.Body = body.ToMessageBody();
 
-            // 3. Send via SMTP
+            // 3. Send via SMTP (keep your working code)
             using var client = new MailKit.Net.Smtp.SmtpClient();
             await client.ConnectAsync(
                 _emailSettings.Host,
@@ -543,12 +612,10 @@ namespace ResumeHub.Controllers
             await client.SendAsync(mime);
             await client.DisconnectAsync(true);
 
-            // 4. Confirm to user (e.g. TempData + redirect back)
+            // 4. Confirm to user
             TempData["ContactSuccess"] = "Your message has been sent!";
-            var ID = portfolioId;
-            return RedirectToAction("PortFoliosTemplates",  new { ID} );
+            return RedirectToAction("PortFoliosTemplates", new { ID = portfolioId });
         }
-
     }
 
 }

@@ -312,10 +312,7 @@ namespace ResumeHub.Controllers
         }
 
 
-        
-
-
-
+   
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProcessStep(ResumeDTO model, string command)   

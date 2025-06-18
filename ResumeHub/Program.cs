@@ -37,6 +37,8 @@ public class Program
 
         builder.Services.AddScoped<IResumePdfGenerator, ResumePdfGenerator>();
 
+        builder.Services.AddScoped<IAiLetterService, AiLetterService>();
+
         var key = builder.Configuration["OpenAI:ApiKey"];
         builder.Services.AddSingleton<Kernel>(sp =>
         {

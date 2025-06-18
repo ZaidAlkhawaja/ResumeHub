@@ -1193,7 +1193,7 @@
                 </div>
                 <div class="col-lg-8 animate-on-scroll" style="animation-delay: 0.2s">
                     <div class="glass-card">
-                        <form asp-action="Contact" asp-controller="Portfolio" method="post" class="contact-form">
+                       @*  <form asp-action="Contact" asp-controller="Portfolio" method="post" class="contact-form">
                             <input type="hidden" name="portfolioOwnerEmail" value="@Model.Email" />
                             <input type="hidden" name="portfolioId" value="@Model.Id" />
 
@@ -1216,7 +1216,37 @@
                                 <textarea class="form-control" id="message" rows="6" required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary submit-btn">Send Message</button>
+                        </form> *@
+
+
+
+                        <form asp-action="Contact" asp-controller="Portfolio" method="post" class="contact-form">
+                            <input type="hidden" name="portfolioOwnerEmail" value="@Model.Email" />
+                            <input type="hidden" name="portfolioId" value="@Model.Id" />
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label for="name" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="name" name="Name" required>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="email" class="form-label">Your Email</label>
+                                    <input type="email" class="form-control" id="email" name="Email" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="Subject" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="Message" rows="6" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary submit-btn">Send Message</button>
                         </form>
+
+
+                       
+
                     </div>
                 </div>
             </div>
