@@ -281,17 +281,20 @@
 <!-- Main Content -->
 <div class="main-content sidebar-toggle-animation">
     <!-- Top Header -->
-    <header class="top-header">
+     <header class="top-header">
         <button class="toggle-sidebar" id="sidebarToggle">
             <i class="bi bi-list"></i>
         </button>
+        <div class="ms-auto">
+            <span class="me-3">Welcome, @User.Identity.Name</span>
+            </div>
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button type="submit" class="dropdown-item">
                 <i class="bi bi-box-arrow-right me-2"></i>Logout
             </button>
         </form>
     </header>
-
+ 
     <!-- Dashboard Content -->
     <div class="dashboard-content">
         <!-- Welcome Card -->
