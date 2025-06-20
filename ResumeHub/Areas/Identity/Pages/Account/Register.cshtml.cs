@@ -127,7 +127,7 @@ namespace ResumeHub.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new EndUser();
+                var user = new Admin();
 
                 user.EmailConfirmed = true; // Set email confirmed to true for testing purposes
 

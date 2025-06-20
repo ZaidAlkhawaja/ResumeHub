@@ -100,7 +100,7 @@ public class Program
                 var user = await userManager.GetUserAsync(context.User);
                 if (user != null && await userManager.IsInRoleAsync(user, "Admin"))
                 {
-                    context.Response.Redirect("/Admin/Dashboard");
+                    context.Response.Redirect("/Admin/Index");
                     return;
                 }
 
