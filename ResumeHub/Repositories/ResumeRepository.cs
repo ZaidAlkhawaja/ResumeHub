@@ -6,10 +6,9 @@ namespace ResumeHub.Repositories
 {
     public class ResumeRepository : IResumeRepository
     {
-        // This class will implement methods to interact with the resume data.
-        // For example, methods to add, update, delete, and retrieve resumes.
+      
 
-        private readonly ApplicationDbContext _Context;  // Database context to interact with the database.
+        private readonly ApplicationDbContext _Context;  
         public ResumeRepository(ApplicationDbContext context) 
         {
             // Constructor to initialize the repository with the database context.

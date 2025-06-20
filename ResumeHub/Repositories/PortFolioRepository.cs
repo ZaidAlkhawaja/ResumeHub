@@ -10,19 +10,18 @@ namespace ResumeHub.Repositories
         private readonly ApplicationDbContext _Context;
         public PortFolioRepository(ApplicationDbContext context)
         {
-            _Context = context; // Initialize the repository with the database context.
+            _Context = context; 
         }
         public void AddPortFolio(PortFolio portFolio)
         {
-            _Context.Portfolios.Add(portFolio); // Add the portfolio to the Portfolios DbSet in the context.
-            _Context.SaveChanges(); // Save changes to the database.
+            _Context.Portfolios.Add(portFolio); 
+            _Context.SaveChanges(); 
 
         }
 
         public async Task DeletePortFolio(int id)
         {
-            var portFolio = _Context.Portfolios.Find(id); // Find the portfolio by ID in the Portfolios DbSet.
-            if (portFolio != null)
+            var portFolio = _Context.Portfolios.Find(id); 
             {
                 portFolio.IsDeleted = true; 
                 _Context.Portfolios.Update(portFolio); 
@@ -33,7 +32,7 @@ namespace ResumeHub.Repositories
 
         public List<PortFolio> GetPortFolioByEndUserId(string endUserId)
         {
-            return _Context.Portfolios.Where(x => x.EndUserId == endUserId).ToList(); // Retrieve portfolios by EndUserId.
+            return _Context.Portfolios.Where(x => x.EndUserId == endUserId).ToList(); 
         }
 
         public async Task <PortFolio> GetPortFolioById(int id)
