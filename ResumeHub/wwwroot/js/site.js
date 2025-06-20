@@ -51,3 +51,16 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Run once on load in case elements are already in view
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ratingInputs = document.querySelectorAll('.rating input');
+    const displayRating = document.querySelector('.review-rating');
+
+    ratingInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            const ratingValue = this.value;
+            displayRating.innerHTML = '★'.repeat(ratingValue);
+        });
+    });
+});

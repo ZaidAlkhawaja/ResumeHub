@@ -8,5 +8,7 @@
 
         public List<PortFolio> PortFolios { get; set; }
 
+        public List<Review> Reviews { get; set; }
+
     }
 }

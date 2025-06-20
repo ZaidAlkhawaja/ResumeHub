@@ -39,6 +39,9 @@ public class Program
 
         builder.Services.AddScoped<IAiLetterService, AiLetterService>();
 
+        builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
+
+
         var key = builder.Configuration["OpenAI:ApiKey"];
         builder.Services.AddSingleton<Kernel>(sp =>
         {

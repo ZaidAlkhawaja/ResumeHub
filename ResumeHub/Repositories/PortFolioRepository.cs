@@ -1,6 +1,7 @@
 ﻿using ResumeHub.Data;
 using ResumeHub.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SemanticKernel;
 
 namespace ResumeHub.Repositories
 {
@@ -98,5 +99,27 @@ namespace ResumeHub.Repositories
 
 
         }
+
+        public async Task<List<PortFolio>> GetPortfoliosCount(int count)
+        {
+            // Fetch the latest 'count' portfolios that are not deleted, including related data for DataTable display
+            return await _Context.Portfolios
+                .OrderByDescending(p => p.PortFolioId)
+                .Include(p => p.EndUser)
+                .Take(count)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+
+
+
+        public async Task<int> GetCountAsync()
+        {
+            return await _Context.Portfolios.CountAsync();
+        }
+
     }
+
+
 }

@@ -17,8 +17,11 @@ namespace ResumeHub.Repositories
         Task<Resume> GetResumeById(int id);
 
         // Method to retrieve a resume by User ID
-       List<Resume> GetResumesByEndUserId(string endUserId);
+        List<Resume> GetResumesByEndUserId(string endUserId);
 
+        Task<List<Resume>> GetResumeCount(int count);
 
+        Task<int> GetCountAsync();
     }
 }
+

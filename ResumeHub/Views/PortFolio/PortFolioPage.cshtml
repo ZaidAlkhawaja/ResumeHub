@@ -1,8 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model ResumeHub.DTOs.ReviewDto
 
 <link rel="stylesheet" href="~/css/PortFolioView.css" asp-append-version="true" />
 
@@ -124,7 +120,7 @@
                     </div>
                 </div>
 
-                <a href="/Portfolio/Create" class="btn btn-primary">Start with AI Portfolio Builder</a>
+                <a asp-action="CreateNewPortFolio" asp-controller="Portfolio"  class="btn btn-primary">Start with AI Portfolio Builder</a>
             </div>
         </div>
     </div>
@@ -139,8 +135,8 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="position-relative">
-                    <div class="portfolio-preview">
-                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Design Portfolio" class="img-fluid">
+                    <div class="position-relative">
+                        <img src=" https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Design Portfolio" class="img-fluid">
                     </div>
                     <span class="ai-badge">AI-Curated</span>
                     <div class="mt-3">
@@ -152,7 +148,7 @@
 
             <div class="col-md-4">
                 <div class="position-relative">
-                    <div class="portfolio-preview">
+                    <div class="position-relative">
                         <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Developer Portfolio" class="img-fluid">
                     </div>
                     <span class="ai-badge">AI-Curated</span>
@@ -165,7 +161,7 @@
 
             <div class="col-md-4">
                 <div class="position-relative">
-                    <div class="portfolio-preview">
+                    <div class="position-relative">
                         <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Business Portfolio" class="img-fluid">
                     </div>
                     <span class="ai-badge">AI-Curated</span>
@@ -178,63 +174,14 @@
         </div>
 
         <div class="text-center mt-5">
-            <a href="/portfolio/examples" class="btn btn-accent btn-lg">View More AI Examples</a>
+            <a asp-action ="Index" asp-controller="Portfolio" class="btn btn-accent btn-lg">View More AI Examples</a>
         </div>
     </div>
 </section>
 
-<!-- Integration Section -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="section-title text-center">Seamless AI Integrations</h2>
-        <p class="text-center text-muted mb-5">Our portfolio builder connects with the tools you already use</p>
-
-        <div class="row g-4 justify-content-center">
-            <div class="col-6 col-md-3 col-lg-2 text-center">
-                <div class="p-4 feature-card">
-                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" style="height: 50px;">
-                    <p class="mt-2 mb-0 fw-bold">GitHub</p>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-3 col-lg-2 text-center">
-                <div class="p-4 feature-card">
-                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" style="height: 50px;">
-                    <p class="mt-2 mb-0 fw-bold">LinkedIn</p>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-3 col-lg-2 text-center">
-                <div class="p-4 feature-card">
-                    <img src="https://cdn-icons-png.flaticon.com/512/733/733609.png" alt="GitLab" style="height: 50px;">
-                    <p class="mt-2 mb-0 fw-bold">GitLab</p>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-3 col-lg-2 text-center">
-                <div class="p-4 feature-card">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111615.png" alt="Slack" style="height: 50px;">
-                    <p class="mt-2 mb-0 fw-bold">Slack</p>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-3 col-lg-2 text-center">
-                <div class="p-4 feature-card">
-                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" alt="Figma" style="height: 50px;">
-                    <p class="mt-2 mb-0 fw-bold">Figma</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center mt-5">
-            <p class="lead">Our AI can import and analyze your existing work from these platforms to build your portfolio automatically</p>
-            <a href="/portfolio/integrations" class="btn btn-outline-primary">See All Integrations</a>
-        </div>
-    </div>
-</section>
 
 <!-- Testimonials Section -->
-<section class="py-5 bg-light-custom">
+@* <section class="py-5 bg-light-custom">
     <div class="container">
         <h2 class="section-title text-center">What Our Users Say</h2>
         <p class="text-center text-muted mb-5">Professionals who transformed their job search with AI portfolios</p>
@@ -280,7 +227,125 @@
             </div>
         </div>
     </div>
+</section> *@
+
+
+
+
+<section id="reviews" class="py-5 bg-light-custom">
+    <div class="container">
+        <h2 class="section-title">User Reviews</h2>
+        <p class="text-center text-muted mb-5">Share your experience with ResumeHub</p>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="card shadow-sm border-0 mx-auto" style="max-width: 600px;">
+                    <div class="card-body p-4">
+                        <h4 class="text-center mb-4">Add Your Review</h4>
+                        <form asp-controller="Home" asp-action="SubmitReview" method="post">
+                            <!-- Rating -->
+
+                            <div class="rating-container">
+                                <div class="rating">
+                                    <input type="radio" asp-for="Rating" id="star5" name="rating" value="5" />
+                                    <label for="star5" title="5 stars">★</label>
+                                    <input type="radio" asp-for="Rating" id="star4" name="rating" value="4" />
+                                    <label for="star4" title="4 stars">★</label>
+                                    <input type="radio" asp-for="Rating" id="star3" name="rating" value="3" />
+                                    <label for="star3" title="3 stars">★</label>
+                                    <input type="radio" asp-for="Rating" id="star2" name="rating" value="2" />
+                                    <label for="star2" title="2 stars">★</label>
+                                    <input type="radio" asp-for="Rating" id="star1" name="rating" value="1" />
+                                    <label for="star1" title="1 star">★</label>
+                                </div>
+
+
+                                <!-- Comment -->
+                                <div class="mb-4">
+                                    <label asp-for="Comment" class="form-label">Your Review</label>
+                                    <textarea asp-for="Comment" class="form-control" rows="4"
+                                              placeholder="Share your experience..."></textarea>
+                                    <span asp-validation-for="Comment" class="text-danger small"></span>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary px-5">Submit Review</button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row justify-content-center mt-5">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <h2 class="text-center mb-4 fw-bold">What Our Users Say</h2>
+                <p class="text-center text-muted mb-5">Hear from professionals who transformed their careers with our services</p>
+
+                @if (ViewBag.RecentReviews is Task<List<ResumeHub.Models.Review>> reviewTask)
+                {
+                    var reviews = reviewTask.GetAwaiter().GetResult();
+                    if (reviews != null && reviews.Any())
+                    {
+                        <div class="row g-4">
+                            @foreach (var review in reviews)
+                            {
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden hover-shadow">
+                                        <div class="card-body p-4">
+                                            <div class="d-flex align-items-start mb-3">
+                                                <div class="review-avatar bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; font-size: 1.2rem;">
+                                                    @review.UserName[0]
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h5 class="mb-1 fw-semibold">@review.UserName</h5>
+                                                    <div class="star-rating-display mb-1">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            <i class="bi @(i <= review.Rating ? "bi-star-fill" : "bi-star") @(i <= review.Rating ? "text-warning" : "text-muted")"></i>
+                                                        }
+                                                    </div>
+                                                    <small class="text-muted">@review.CreatedAt.ToString("MMM dd, yyyy")</small>
+                                                </div>
+                                            </div>
+                                            <p class="mb-0 text-dark" style="min-height: 80px;">@review.Comment</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a href="/reviews" class="btn btn-outline-primary px-4">View All Reviews</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5 bg-light rounded-3">
+                            <i class="bi bi-chat-square-text display-4 text-muted mb-3"></i>
+                            <h5 class="fw-semibold mb-2">No reviews yet</h5>
+                            <p class="text-muted mb-4">Be the first to share your experience!</p>
+                            <a href="/submit-review" class="btn btn-primary px-4">Write a Review</a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center py-5 bg-light rounded-3">
+                        <i class="bi bi-chat-square-text display-4 text-muted mb-3"></i>
+                        <h5 class="fw-semibold mb-2">No reviews yet</h5>
+                        <p class="text-muted mb-4">Be the first to share your experience!</p>
+                        <a href="/submit-review" class="btn btn-primary px-4">Write a Review</a>
+                    </div>
+                }
+            </div>
+        </div>
+
 </section>
+
 
 <!-- CTA Section -->
 <section class="py-5 text-white" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);">

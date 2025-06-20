@@ -104,8 +104,24 @@ namespace ResumeHub.Repositories
             //resume.LastUpdatedDate = DateOnly.FromDateTime(DateTime.Now).ToString();  // Update the LastUpdatedDate to the current date.
             //await _Context.SaveChangesAsync();           // Save changes to the database.
 
+      
+        }
+        public async Task<List<Resume>> GetResumeCount(int count)
+        {
+            return await _Context.Resumes
+                .OrderByDescending(r => r.LastUpdatedDate ?? r.CreatedDate)
+                .Take(count)
+                .Include(r => r.EndUser)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetCountAsync()
+        {
+            return await _Context.Resumes.CountAsync();
         }
     }
+
+
 }
 
 

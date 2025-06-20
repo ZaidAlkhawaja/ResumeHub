@@ -22,6 +22,8 @@ public class ApplicationDbContext : IdentityDbContext <Person>  // Person is the
     public DbSet<Certification> Certifications { get; set; }
     public DbSet<Language> Languages { get; set; }
     public DbSet<Admin> Admins { get; set; }
+
+    public DbSet<Review> Reviews { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

@@ -1,4 +1,5 @@
 ﻿using ResumeHub.Models;
+using System.Threading.Tasks;
 
 namespace ResumeHub.Repositories
 {
@@ -13,6 +14,11 @@ namespace ResumeHub.Repositories
         public Task<PortFolio> GetPortFolioById(int id);
 
         public List<PortFolio> GetPortFolioByEndUserId(string endUserId);
+
+        Task<List<PortFolio>> GetPortfoliosCount(int count);
+
+        Task<int> GetCountAsync(); 
+
 
 
     }

@@ -249,3 +249,208 @@ footer {
 }
 
 
+/* Star Rating CSS */
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+    .rating input {
+        display: none;
+    }
+
+    .rating label {
+        color: #ccc;
+        font-size: 2rem;
+        padding: 0 0.1rem;
+        cursor: pointer;
+    }
+
+    .rating input:checked ~ label {
+        color: #ffc107;
+    }
+
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: #ffc107;
+    }
+
+        .rating input:checked + label:hover,
+        .rating input:checked ~ label:hover,
+        .rating label:hover ~ input:checked ~ label {
+            color: #ffc107;
+        }
+
+
+
+/* Centered Left-to-Right Star Rating CSS */
+
+.rating-container {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.rating {
+    display: inline-flex;
+    justify-content: center;
+    direction: ltr; /* Ensure left-to-right direction */
+}
+
+    .rating input {
+        display: none;
+    }
+
+    .rating label {
+        color: #ccc;
+        font-size: 2rem;
+        padding: 0 0.2rem;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .rating input:checked ~ label {
+        color: #ffc107;
+    }
+
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: #ffc107;
+    }
+
+        .rating input:checked + label:hover,
+        .rating input:checked ~ label:hover,
+        .rating label:hover ~ input:checked ~ label {
+            color: #ffc107;
+        }
+
+
+
+
+
+/* What users say cards  */
+
+
+.review-avatar {
+    width: 40px;
+    height: 40px;
+    font-weight: 600;
+}
+
+.hover-shadow {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+
+.star-rating-display .bi {
+    font-size: 1.1rem;
+}
+
+@@media (max-width: 767.98px) {
+    .review-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .card-body {
+        padding: 1.25rem !important;
+    }
+}
+
+
+
+/* Contact section */
+
+.contact-icon {
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-icon {
+    background-color: var(--bs-primary) !important;
+    color: white !important;
+}
+
+.social-icon {
+    transition: all 0.3s ease;
+}
+
+    .social-icon:hover {
+        background-color: var(--bs-primary) !important;
+        color: white !important;
+        transform: translateY(-3px);
+    }
+
+@media (max-width: 767.98px) {
+    .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .contact-icon, .social-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .contact-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .contact-icon {
+        margin-bottom: 0.75rem;
+        margin-right: 0 !important;
+    }
+}
+
+.contact-icon {
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-icon {
+    background-color: var(--bs-primary) !important;
+    color: white !important;
+}
+
+.social-icon {
+    transition: all 0.3s ease;
+}
+
+    .social-icon:hover {
+        background-color: var(--bs-primary) !important;
+        color: white !important;
+        transform: translateY(-3px);
+    }
+
+@media (max-width: 767.98px) {
+    .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .contact-icon, .social-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .contact-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .contact-icon {
+        margin-bottom: 0.75rem;
+        margin-right: 0 !important;
+    }
+
+    .contact-list div.text-start {
+        text-align: center !important;
+    }
+}
