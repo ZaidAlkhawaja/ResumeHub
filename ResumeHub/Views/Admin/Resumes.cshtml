@@ -40,7 +40,7 @@
                             var idx = 1;
                             foreach (var u in Model.RecentResumes)
                             {
-                                 bool locked = u.IsDeleted ?? false;
+                                 bool locked = u.IsDeleted ;
                                 <tr>
                                     <td>@idx++</td>
                                     <td>@u.EndUser.FirstName</td>

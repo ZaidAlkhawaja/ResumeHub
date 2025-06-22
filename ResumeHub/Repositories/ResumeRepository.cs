@@ -45,7 +45,7 @@ namespace ResumeHub.Repositories
         {
             // Implementation for retrieving a resume by EndUserId.
 
-            return _Context.Resumes.Where(x => x.EndUserId == endUserId).ToList();  // Find the first resume with the specified EndUserId.
+            return _Context.Resumes.Where(x => x.EndUserId == endUserId & !x.IsDeleted).ToList();  // Find the first resume with the specified EndUserId.
 
         }
 
@@ -57,7 +57,7 @@ namespace ResumeHub.Repositories
                     .Include(r => r.Projects)
                     .Include(r => r.Skills)
                     .Include(r => r.Certifications)
-                    .Include(r => r.Languages).FirstOrDefaultAsync(r => r.ResumeId == id);  // Find and return the resume by ID from the Resumes DbSet.
+                    .Include(r => r.Languages).FirstOrDefaultAsync(r => r.ResumeId == id );  // Find and return the resume by ID from the Resumes DbSet.
         }
 
         public async Task UpdateResume(Resume resume)
@@ -78,6 +78,7 @@ namespace ResumeHub.Repositories
                     throw new KeyNotFoundException($"Resume with ID {resume.ResumeId} not found.");
                 }
                 // Remove related entities
+               
                 _Context.Experiences.RemoveRange(existingResume.Experiences);
                 _Context.Educations.RemoveRange(existingResume.Educations);
                 _Context.Projects.RemoveRange(existingResume.Projects);

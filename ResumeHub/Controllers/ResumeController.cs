@@ -56,7 +56,7 @@ namespace ResumeHub.Controllers
                 Created = resume.CreatedDate,
                 LastEdit = resume.LastUpdatedDate,
                 Address = resume.address,
-                Bio = resume.Summary,
+                Summary = resume.Summary,
                 Title = resume.title,
                 GitHubLink = resume.GitHubProfile,
                 LinkedinLink = resume.LinkedInProfile,
@@ -140,10 +140,19 @@ namespace ResumeHub.Controllers
 
         [HttpGet]
         public async Task<IActionResult> EditResume(int ID)
+        
         {
-            var r = await _repo.GetResumeById(ID);
-            var resume = MapToResumeJsonDto(r);
-            return View(resume);
+            try
+            {
+                var r = await _repo.GetResumeById(ID);
+                var resume = MapToResumeJsonDto(r);
+                return View(resume);
+            }
+            catch
+            {
+                // Handle the case where the resume is not found or any other error occurs
+                return NotFound();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -172,7 +181,7 @@ namespace ResumeHub.Controllers
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
                 title = dto.Title,
-                Summary = dto.Bio ?? dto.Bio, // use whichever is populated
+                Summary = dto.Summary ?? dto.Summary, // use whichever is populated
                 GitHubProfile = dto.GitHubLink,
                 LinkedInProfile = dto.LinkedinLink,
                 ResumeTemplateId = dto.ResumeTemplateId, // assuming you have a template ID field
@@ -245,7 +254,7 @@ namespace ResumeHub.Controllers
                 Email = resume.Email,
                 PhoneNumber = resume.PhoneNumber,
                 Title = resume.title,
-                Bio = resume.Summary,
+                Summary = resume.Summary,
                 LinkedinLink = resume.LinkedInProfile,
                 GitHubLink = resume.GitHubProfile,
                 ResumeTemplateId = resume.ResumeTemplateId, // Assuming you have a template ID field

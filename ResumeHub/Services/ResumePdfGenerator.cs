@@ -74,7 +74,7 @@ public class ResumePdfGenerator : IResumePdfGenerator
             container.PaddingVertical(10).Column(col =>
             {
                 // Summary Section
-                AddSection(col, "Summary", _resume.Bio, false);
+                AddSection(col, "Summary", _resume.Summary, false);
 
                 // Education Section
                 AddSection(col, "Education", _resume.Educations);

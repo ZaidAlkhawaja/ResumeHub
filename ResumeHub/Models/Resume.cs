@@ -7,7 +7,7 @@
 
         public string? LastUpdatedDate { get; set; } 
 
-        public bool? IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
 
         public int ResumeTemplateId { get; set; }
 

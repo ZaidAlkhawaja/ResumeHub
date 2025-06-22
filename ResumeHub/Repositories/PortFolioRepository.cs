@@ -32,7 +32,7 @@ namespace ResumeHub.Repositories
 
         public List<PortFolio> GetPortFolioByEndUserId(string endUserId)
         {
-            return _Context.Portfolios.Where(x => x.EndUserId == endUserId).ToList(); 
+            return _Context.Portfolios.Where(x => x.EndUserId == endUserId & !x.IsDeleted).ToList(); 
         }
 
         public async Task <PortFolio> GetPortFolioById(int id)

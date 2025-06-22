@@ -272,12 +272,12 @@
             </div>
         </div>
 
-        @if (!string.IsNullOrWhiteSpace(Model.Bio))
+        @if (!string.IsNullOrWhiteSpace(Model.Summary))
         {
             <div class="resume-section">
                 <h2 class="section-title"><i class="bi bi-person-lines-fill"></i> Professional Summary</h2>
                 <div class="section-content">
-                    <p>@Model.Bio</p>
+                    <p>@Model.Summary</p>
                 </div>
             </div>
         }

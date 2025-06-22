@@ -20,7 +20,7 @@ namespace ResumeHub.DTOs
             public string? LastEdit { get; set; }
 
              public string? Address { get; set; }
-            public string? Bio { get; set; }
+            public string? Summary { get; set; }
             public string? Title { get; set; }
             public string? GitHubLink { get; set; }
             public string? LinkedinLink { get; set; }

@@ -432,11 +432,11 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- About -->
-        @if (!string.IsNullOrWhiteSpace(Model.Bio))
+        @if (!string.IsNullOrWhiteSpace(Model.Summary))
         {
             <div class="section" data-aos="fade-up">
                 <h2 class="section-title">About Me</h2>
-                <p class="job-description">@Model.Bio</p>
+                <p class="job-description">@Model.Summary</p>
             </div>
         }
         
